@@ -52,13 +52,13 @@ typedef enum logic [4:0] {
 	lead_in_11,
 	lead_in_12,
 	//7 common cases
+	common_case_0,
 	common_case_1,
 	common_case_2,
 	common_case_3,
 	common_case_4,
 	common_case_5,
 	common_case_6,
-	common_case_7,
 } milestone1_state_type;
 
 
