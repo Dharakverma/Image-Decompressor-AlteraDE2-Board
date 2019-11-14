@@ -148,6 +148,101 @@ always //make ff begin
 		
 		case(milestone1)
 			
+			lead_in_0: begin
+				write_en_n <= 1'b1;
+				address <= address_v;
+				address_v <= address_v + 18'd1; 
+				
+				milestone1 <= lead_in_1;
+			end
+			
+			lead_in_1: begin
+				address <= address_v;
+				address_v <= address_v + 18'd1;
+
+				milestone1 <= lead_in_2;
+				
+			end
+			
+			lead_in_2: begin
+				address <= address_u;
+				address_u <= address_u + 18'd1; 
+				
+				milestone1 <= lead_in_3;
+			
+			end
+			
+			lead_in_3: begin
+				address <= address_u;
+				address_u <= address_u + 18'd1; 
+				
+				reg_v[5] <= SRAM_read_data[15:8];
+				reg_v[4] <= SRAM_read_data[15:8];
+				reg_v[3] <= SRAM_read_data[15:8];
+				reg_v[2] <=	SRAM_read_data[7:0];
+				
+				milestone1 <= lead_in_4;
+			
+			end
+			
+			lead_in_4: begin
+				address <= address_y;
+				address_y <= address_y + 18'd1;
+				
+				reg_v[1] <= SRAM_read_data[15:8];
+				reg_v[0] <= SRAM_read_data[7:0];
+				
+				milestone1 <= lead_in_5;
+				
+			end
+			
+			lead_in_5: begin
+				
+				mult1_op1 <= signed_21;
+				mutl1_op2 <=(reg_v[0] + reg_v[5]); //the u values we require will always be at the start and end of our register
+				
+				mult2_op1 <= signed_52; //how do i make this negative
+				mult2_op2 <= (reg_v[1] + reg_v[4]);
+				
+				mult3_op1 <= signed_159;
+				mult3_op2 <= (reg_v[2] + reg_v[3]);
+			
+				reg_u[5] <= SRAM_read_data[15:8];
+				reg_u[4] <= SRAM_read_data[15:8];
+				reg_u[3] <= SRAM_read_data[15:8];
+				reg_u[2] <=	SRAM_read_data[7:0];
+				
+				milestone1 <= lead_in_6;
+				
+			end
+			
+			lead_in_6: begin
+			
+				reg_u[1] <= SRAM_read_data[15:8];
+				reg_u[0] <= SRAM_read_data[7:0];
+				
+				milestone1 <= lead_in_7;
+			
+			end
+			
+			lead_in_7: begin
+				
+				reg_y[1] = SRAM_read_data[15:8];
+				reg_y[0] = SRAM_read_data[7:0];
+			
+				mult1_op1 <= signed_21;
+				mutl1_op2 <=(reg_u[0] + reg_u[5]); //the u values we require will always be at the start and end of our register
+				
+				mult2_op1 <= signed_52; //how do i make this negative
+				mult2_op2 <= (reg_u[1] + reg_u[4]);
+				
+				mult3_op1 <= signed_159;
+				mult3_op2 <= (reg_u[2] + reg_u[3]);
+				
+				milestone1 <= common_case_0;
+				
+			end
+			
 			common_case_0: begin
 
 				//enable reading -> read (Veven, Vodd) values -> stores values in reg_v register
