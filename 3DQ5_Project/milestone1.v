@@ -54,11 +54,11 @@ milestone_state_type milestone1; //initailize from header file
 logic [7:0] reg_u [5:0]; //shift register for u values
 logic [7:0] reg_v [5:0]; //shift register for v values 
 logic [7:0] reg_y [5:0]; //shift register for y values 
-logic [7:0] buff_reg_u [5:0]; //buffer for u values
-logic [7:0] buff_reg_v [5:0]; //buffer for v values
-logic [7:0] buff_reg_y [5:0]; //buffer for y values
+logic [7:0] buff_reg_u [1:0]; //buffer for u values
+logic [7:0] buff_reg_v [1:0]; //buffer for v values
+logic [7:0] buff_reg_y [1:0]; //buffer for y values
 
-logic even_or_odd; //to keep track of whether we need to incriment address for Y/U/V or not
+logic read_cycle_en; //to keep track of whether we need to incriment address for Y/U/V or not
 logic [7:0] value_R;
 logic [7:0] value_G;
 logic [7:0] value_B;
@@ -109,7 +109,7 @@ always //make ff begin
 		value_v <= 8'd0;
 		value_U_prime <= 8'd0;
 		value_V_prime <= 8'd0;
-		even_or_odd <= 16'd0;
+		read_cycle_en <= 16'd0;
 
 		address_y <= 18'd0;
 		address_u <= 18'd38400;
@@ -153,14 +153,12 @@ always //make ff begin
 				//enable reading -> read (Veven, Vodd) values -> stores values in reg_v register
 				write_en_n <= 1'b1; 
 
-				if (write_en_n == 1'b1 && even_or_odd == 1'b1) begin
+				if (write_en_n == 1'b1 && read_cycle_en == 1'b1) begin
 					
 					address <= address_v;
 					address_v <= address_v + 18'd1; 
 					
 				end else begin
-
-				 //this means we need to read V and U values this cycle
 
 				//Y matrix calculation for R value
 				//the output of this multiplication will be available in the next cycle
@@ -177,12 +175,20 @@ always //make ff begin
 			end
 
 			common_case_1: begin
+				
+				write_en_n <= 1'b1;
+				
+				if (write_en_n == 1'b1 && read_cycle_en == 1'b1) begin
+
+					address <= address_u;
+					address_u <= address_u + 18'd1; 
+					
 
 				value_y <= $signed(mult1_out);
 				value_v <= $signed(mult2_out);
 				value_R <= $signed((value_y + value_v)) >>> 16;	
 
-				even_or_odd <= even_or_odd ~& 1'b1;
+				read_cycle_en <= read_cycle_en ~& 1'b1;
 
 			end
 
@@ -206,9 +212,8 @@ always //make ff begin
 			
 			common_case_3: begin
 
-				reg_v[5] <= SRAM_read_data[7:0]; //new even value from read we initiated 3 cycles ago
-				reg_v[4] <= SRAM_read_data[15:8]; //new odd value from read we initiated 3 cycles ago
-
+				buff_reg_v[1] <= SRAM_read_data[15:8]; //new odd value from read we initiated 3 cycles ago
+				buff_reg_v[0] <= SRAM_read_data[7:0]; //new even value from read we initiated 3 cycles ago
 
 				//we need to ensure we shift these values to the correct index for our V' calculation
 				//index 0 == V(j-5/2) required data
@@ -218,13 +223,17 @@ always //make ff begin
 				//index 4 == V(j+3/2)
 				//index 5 == V(j+5/2)
 				//need to create a buffer register and shift only 1 out of 2 of the SRAM values into this register per cycle
-				reg_v[4] <= reg_v[5];
+				reg_v[5] <= buff_reg_v[0];
 				reg_v[3] <= reg_v[4];
 				reg_v[2] <= reg_v[3];
 				reg_v[1] <= reg_v[2];
 				reg_v[0] <= reg_v[1];
 
-		
+				buff_reg_v[0] <= buff_reg_v[1];
+
+
+
+	
 end
 
 
