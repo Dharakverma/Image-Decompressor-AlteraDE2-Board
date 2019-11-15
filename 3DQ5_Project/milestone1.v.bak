@@ -106,7 +106,7 @@ Multiplier mult3(
 	.Mult_result(mult3_out)
 );
 
-always @@@@@@@@@@@@@@@@@@@
+always 
 	if (~resetn) begin
 	//initailize all variables and registers as base values
 		value_R <= 8'd0;

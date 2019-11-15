@@ -4,7 +4,8 @@
 typedef enum logic [1:0] {
 	S_IDLE,
 	S_ENABLE_UART_RX,
-	S_WAIT_UART_RX
+	S_WAIT_UART_RX,
+    S_top_m1
 } top_state_type;
 
 typedef enum logic [1:0] {
@@ -58,8 +59,8 @@ typedef enum logic [4:0] {
 	common_case_3,
 	common_case_4,
 	common_case_5,
-	common_case_6,
-} milestone1_state_type;
+	common_case_6
+} milestone_state_type;
 
 
 

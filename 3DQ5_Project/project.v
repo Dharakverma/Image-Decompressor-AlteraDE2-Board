@@ -153,6 +153,23 @@ UART_SRAM_interface UART_unit(
 	.Frame_error(Frame_error)
 );
 
+logic [15:0] m1_write_data;
+logic [17:0] m1_address;
+logic m1_start_bit;
+logic m1_write_en_n;
+logic m1_finish;
+
+milestone1 m1_unit(
+	.Clock(CLOCK_50_I),
+	.Resetn(resetn), 
+	.start_bit(m1_start_bit), //for leaving idle state
+	.SRAM_read_data(SRAM_read_data),
+	.write_data(m1_write_data),
+	.address(m1_address),
+	.write_en_n(m1_write_en_n),
+	.milestone1_finish(m1_finish)
+);
+
 // SRAM unit
 SRAM_Controller SRAM_unit (
 	.Clock_50(CLOCK_50_I),
@@ -204,6 +221,12 @@ always @(posedge CLOCK_50_I or negedge resetn) begin
 								
 				top_state <= S_ENABLE_UART_RX;
 			end
+`ifdef SIMULATION
+			if (UART_timer == 26'd10) begin
+				m1_start <= 1'b1;
+				top_state <= S_top_m1;
+			end
+`endif
 		end
 		S_ENABLE_UART_RX: begin
 			// Enable the UART receiver
@@ -215,6 +238,14 @@ always @(posedge CLOCK_50_I or negedge resetn) begin
 				// Timeout for 1 sec on UART for detecting if file transmission is finished
 				UART_rx_initialize <= 1'b1;
 				 				
+				m1_start <= 1'b1;
+				top_state <= S_top_m1;
+			end
+		end
+
+		S_top_m1: begin
+			m1_start <= 1'b0;
+			nif (m1_finish) begin
 				VGA_enable <= 1'b1;
 				top_state <= S_IDLE;
 			end
@@ -224,17 +255,17 @@ always @(posedge CLOCK_50_I or negedge resetn) begin
 	end
 end
 
-assign VGA_base_address = 18'd0;
+assign VGA_base_address = 18'd146944;
 
 // Give access to SRAM for UART and VGA at appropriate time
 assign SRAM_address = ((top_state == S_ENABLE_UART_RX) | (top_state == S_WAIT_UART_RX)) 
-						? UART_SRAM_address 
+						? UART_SRAM_address : (top_state == S_top_m1)  ? m1_SRAM_address
 						: VGA_SRAM_address;
 
-assign SRAM_write_data = UART_SRAM_write_data;
+assign SRAM_write_data = (top_state == S_top_m1)  ? m1_SRAM_write_data : UART_SRAM_write_data;
 
 assign SRAM_we_n = ((top_state == S_ENABLE_UART_RX) | (top_state == S_WAIT_UART_RX)) 
-						? UART_SRAM_we_n 
+						? UART_SRAM_we_n  : (top_state == S_top_m1)  ? m1_write_en_n
 						: 1'b1;
 
 // 7 segment displays
@@ -289,5 +320,7 @@ assign
    SEVEN_SEGMENT_N_O[7] = value_7_segment[7];
 
 assign LED_GREEN_O = {resetn, VGA_enable, ~SRAM_we_n, Frame_error, top_state};
+
+
 
 endmodule
