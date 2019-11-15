@@ -523,9 +523,7 @@ always @@@@@@@@@@@@@@@@@@@
 				end else begin 
 
 				if (Counter >= 9'd319) begin
-
 					milestone1 <= milestone1_finish;
-
 			end
 
 
