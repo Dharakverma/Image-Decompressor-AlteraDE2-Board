@@ -61,7 +61,7 @@ typedef enum logic [4:0] {
 	common_case_4,
 	common_case_5,
 	common_case_6,
-	milestone1_finish
+	milestone1_done
 } milestone_state_type;
 
 

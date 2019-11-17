@@ -28,7 +28,7 @@ add a finish state for this TOP FSM to let it know that milestone 1 is complete
 // This is the top module
 // It connects the UART, SRAM and VGA together.
 // It gives access to the SRAM for UART and VGA
-module experiment4a (
+module project (
 		/////// board clocks                      ////////////
 		input logic CLOCK_50_I,                   // 50 MHz clock
 
@@ -160,7 +160,7 @@ logic m1_write_en_n;
 logic m1_finish;
 
 milestone1 m1_unit(
-	.Clock(CLOCK_50_I),
+	.CLOCK_50_I(CLOCK_50_I),
 	.Resetn(resetn), 
 	.start_bit(m1_start_bit), //for leaving idle state
 	.SRAM_read_data(SRAM_read_data),

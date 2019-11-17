@@ -1,6 +1,7 @@
+`ifndef DISABLE_DEFAULT_NET
 `timescale 1ns/100ps
 `default_nettype none
- 
+`endif
 `include "define_state.h"
 
 //mulitplier module which we will instantiate 3 times 
@@ -506,11 +507,15 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 					milestone1 <= common_case_0;
 
-				end else begin 
+				end else begin
+				 
 					if (counter >= 9'd319) begin
-						milestone1 <= milestone1_finish;
-					end 
+					   milestone1 <= milestone1_done;
+					   
+					end
+					 
 				end
+				
 			end
 			
 			default: milestone1 <= lead_in_0;
