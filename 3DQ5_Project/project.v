@@ -223,7 +223,7 @@ always @(posedge CLOCK_50_I or negedge resetn) begin
 			end
 `ifdef SIMULATION
 			if (UART_timer == 26'd10) begin
-				m1_start <= 1'b1;
+				m1_start_bit <= 1'b1;
 				top_state <= S_top_m1;
 			end
 `endif
@@ -238,18 +238,21 @@ always @(posedge CLOCK_50_I or negedge resetn) begin
 				// Timeout for 1 sec on UART for detecting if file transmission is finished
 				UART_rx_initialize <= 1'b1;
 				 				
-				m1_start <= 1'b1;
+				m1_start_bit <= 1'b1;
 				top_state <= S_top_m1;
 			end
 		end
 
 		S_top_m1: begin
-			m1_start <= 1'b0;
-			nif (m1_finish) begin
+			m1_start_bit <= 1'b0;
+			
+			if (m1_finish) begin
 				VGA_enable <= 1'b1;
 				top_state <= S_IDLE;
 			end
+			
 		end
+		
 		default: top_state <= S_IDLE;
 		endcase
 	end
@@ -259,10 +262,10 @@ assign VGA_base_address = 18'd146944;
 
 // Give access to SRAM for UART and VGA at appropriate time
 assign SRAM_address = ((top_state == S_ENABLE_UART_RX) | (top_state == S_WAIT_UART_RX)) 
-						? UART_SRAM_address : (top_state == S_top_m1)  ? m1_SRAM_address
+						? UART_SRAM_address : (top_state == S_top_m1)  ? m1_address
 						: VGA_SRAM_address;
 
-assign SRAM_write_data = (top_state == S_top_m1)  ? m1_SRAM_write_data : UART_SRAM_write_data;
+assign SRAM_write_data = (top_state == S_top_m1)  ? m1_write_data : UART_SRAM_write_data;
 
 assign SRAM_we_n = ((top_state == S_ENABLE_UART_RX) | (top_state == S_WAIT_UART_RX)) 
 						? UART_SRAM_we_n  : (top_state == S_top_m1)  ? m1_write_en_n
