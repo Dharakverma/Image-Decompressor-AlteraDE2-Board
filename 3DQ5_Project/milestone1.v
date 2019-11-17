@@ -85,7 +85,7 @@ int signed_16;
 int signed_neg_25624;
 int signed_104595;
 int signed_neg_53281;
-int signed_13225;
+int signed_132251;
 
 
 Multiplier mult1(
@@ -106,8 +106,8 @@ Multiplier mult3(
 	.Mult_result(mult3_out)
 );
 
-always @@@@@@@@@@@@@@@@@@@
-	if (~resetn) begin
+always @(posedge Clock or negedge Resetn) begin
+	if (~Resetn) begin
 	//initailize all variables and registers as base values
 		value_R <= 8'd0;
 		value_G <= 8'd0;
@@ -221,7 +221,7 @@ always @@@@@@@@@@@@@@@@@@@
 			lead_in_5: begin
 				
 				mult1_op1 <= signed_21;
-				mutl1_op2 <=(reg_v[0] + reg_v[5]); //the u values we require will always be at the start and end of our register
+				mult1_op2 <=(reg_v[0] + reg_v[5]); //the u values we require will always be at the start and end of our register
 				
 				mult2_op1 <= signed_neg_52; //how do i make this negative
 				mult2_op2 <= (reg_v[1] + reg_v[4]);
@@ -253,7 +253,7 @@ always @@@@@@@@@@@@@@@@@@@
 				reg_y[0] = SRAM_read_data[7:0];
 			
 				mult1_op1 <= signed_21;
-				mutl1_op2 <=(reg_u[0] + reg_u[5]); //the u values we require will always be at the start and end of our register
+				mult1_op2 <=(reg_u[0] + reg_u[5]); //the u values we require will always be at the start and end of our register
 				
 				mult2_op1 <= signed_neg_52; //how do i make this negative
 				mult2_op2 <= (reg_u[1] + reg_u[4]);
@@ -274,17 +274,17 @@ always @@@@@@@@@@@@@@@@@@@
 					
 					address <= address_v;
 					
-				end else begin
+				end
 
 				//Y matrix calculation for R value
 				//the output of this multiplication will be available in the next cycle
-				mutl1_op1 <= signed_76284;
-				mult1_op2 <= (reg_y[5] - signed_16);
+				mult1_op1 <= signed_76284;
+				mult1_op2 <= (reg_y[1] - signed_16);
 			
 				//V matrix calculation for R value
 				//the output of this multiplication will be available in the next cycle
 				mult2_op1 <= signed_104595;
-				mult2_op2 <= (value_v_prime - signed_128);
+				mult2_op2 <= (reg_u[2] - signed_128);
 
 				milestone1 <= common_case_1;
 				
@@ -299,10 +299,10 @@ always @@@@@@@@@@@@@@@@@@@
 
 					address <= address_u;
 					
-				end else begin
+				end
 
 				//flip the read_cycle_en bit so we do/do not read V and U values on the next cycle
-				read_cycle_en <= read_cycle_en ~& 1'b1;
+				read_cycle_en <= ~read_cycle_en;
 				
 				//use mutlipler output from previous cycle to finalize R value
 				matrix_value_y <= $signed(mult1_out);
@@ -310,16 +310,16 @@ always @@@@@@@@@@@@@@@@@@@
 				value_R <= $signed((matrix_value_y + matrix_value_v)) >>> 16; //shifting 16 bits to the right is equivalent to dividing by 2^16
 			
 				//U matrix calculation for G value
-				mutl1_op1 <= signed_neg_25624;
-				mult1_op2 <= (reg_u[5] - signed_128);
+				mult1_op1 <= signed_neg_25624;
+				mult1_op2 <= (reg_u[2] - signed_128);
 
 				//V matrix calculation for G value
 				mult2_op1 <= signed_neg_53281;
-				mult2_op2 <= (reg_v[5] - signed_128);
+				mult2_op2 <= (reg_v[2] - signed_128);
 
 				//U matrix calculation for B value
 				mult3_op1 <= signed_132251;
-				mult3_op2 <= (reg_u[5] - signed_128);
+				mult3_op2 <= (reg_u[2] - signed_128);
 
 				milestone1 <= common_case_2;
 
@@ -342,26 +342,15 @@ always @@@@@@@@@@@@@@@@@@@
 				write_data <= {value_R, value_G};
 				address_RGB <= address_RGB + 18'd1;
 
-				//compute V' for odd RGB values
-				if (read_cycle_en == 1'b1) begin		
-
-					mult1_op1 <= signed_21;
-					mutl1_op2 <=(reg_v[0] + reg_v[5]); //the u values we require will always be at the start and end of our register
-					
-					mult2_op1 <= signed_neg_52; //how do i make this negative
-					mult2_op2 <= (reg_v[1] + reg_v[4]);
-					
-					mult3_op1 <= signed_159;
-					mult3_op2 <= (reg_v[2] + reg_v[3]);
-
-				end else begin
-
-				//compute V' for even RGB values
-				if (read_cycle_en == 1'b0) begin
-
-					value_v_prime <= reg_v[2];
+				//compute V' for odd RGB value	
+				mult1_op1 <= signed_21;
+				mult1_op2 <=(reg_v[0] + reg_v[5]); //the u values we require will always be at the start and end of our register
 				
-				end else begin
+				mult2_op1 <= signed_neg_52; //how do i make this negative
+				mult2_op2 <= (reg_v[1] + reg_v[4]);
+				
+				mult3_op1 <= signed_159;
+				mult3_op2 <= (reg_v[2] + reg_v[3]);
 				
 				milestone1 <= common_case_3;
 				
@@ -370,33 +359,32 @@ always @@@@@@@@@@@@@@@@@@@
 			common_case_3: begin
 
 				//incriment V address from the read we initiated 3 cycles ago so the next read is at the correct memory location
-				address_v <= address_v + 18'd1; 
+				if (read_cycle_en) begin
+					address_v <= address_v + 18'd1; 
+				end
 
-				//finalize V' values and start computing U' for odd RGB values
-				if (read_cycle_en == 1'b1) begin		
+				//finalize V' values and start computing U' for odd RGB values	
 
-					//finialize V' computation using mutliplier outputs from previous cycle
-					value_v_prime <= mult1_out + mult2_out + mult3_out + signed_128; 
-					value_v_prime <= $signed(value_v_prime) >>> 8; // this is equivalent to dividing by 256 (2^8)
+				//finialize V' computation using mutliplier outputs from previous cycle
+				value_v_prime <= mult1_out + mult2_out + mult3_out + signed_128; 
+				value_v_prime <= $signed(value_v_prime) >>> 8; // this is equivalent to dividing by 256 (2^8)
 
-					//fill multipliers with new values to compute odd U'
-					mult1_op1 <= signed_21;
-					mutl1_op2 <=(reg_u[0] + reg_u[5]); //the u values we require will always be at the start and end of our register
+				//fill multipliers with new values to compute odd U'
+				mult1_op1 <= signed_21;
+				mult1_op2 <=(reg_u[0] + reg_u[5]); //the u values we require will always be at the start and end of our register
+				
+				mult2_op1 <= signed_neg_52; //how do i make this negative
+				mult2_op2 <= (reg_u[1] + reg_u[4]);
+				
+				mult3_op1 <= signed_159;
+				mult3_op2 <= (reg_u[2] + reg_u[3]);
 					
-					mult2_op1 <= signed_neg_52; //how do i make this negative
-					mult2_op2 <= (reg_u[1] + reg_u[4]);
-					
-					mult3_op1 <= signed_159;
-					mult3_op2 <= (reg_u[2] + reg_u[3]);
-
-				end else begin
-
 				//compute U' for even RGB values
 				if (read_cycle_en == 1'b0) begin
 
 					value_u_prime <= reg_u[2];
 				
-				end else begin
+				end
 
 				buff_reg_v[2] <= SRAM_read_data[15:8]; //new odd value from read we initiated 3 cycles ago
 				buff_reg_v[1] <= SRAM_read_data[7:0]; //new even value from read we initiated 3 cycles ago
@@ -436,7 +424,7 @@ always @@@@@@@@@@@@@@@@@@@
 					value_u_prime <= mult1_out + mult2_out + mult3_out + signed_128; 
 					value_u_prime <= $signed(value_u_prime) >>> 8; // this is equivalent to dividing by 256 (2^8)
 
-				end else begin
+				end
 
 				//buffer and shift the (Ueven, Uodd) values from the read we initiated 3 cycles ago
 				buff_reg_u[2] <= SRAM_read_data[15:8]; //new odd value from read we initiated 3 cycles ago
@@ -452,7 +440,7 @@ always @@@@@@@@@@@@@@@@@@@
 				buff_reg_u[0] <= buff_reg_u[1];
 
 				//Y matrix calculation for R value
-				mutl1_op1 <= signed_76284;
+				mult1_op1 <= signed_76284;
 				mult1_op2 <= (reg_y[5] - signed_16);
 			
 				//V matrix calculation for R value
@@ -471,7 +459,7 @@ always @@@@@@@@@@@@@@@@@@@
 				value_R <= $signed((matrix_value_y + matrix_value_v)) >>> 16; //shifting 16 bits to the right is equivalent to dividing by 2^16
 			
 				//U matrix calculation for G value
-				mutl1_op1 <= signed_neg_25624;
+				mult1_op1 <= signed_neg_25624;
 				mult1_op2 <= (reg_u[5] - signed_128);
 
 				//V matrix calculation for G value
@@ -521,16 +509,16 @@ always @@@@@@@@@@@@@@@@@@@
 					milestone1 <= common_case_0;
 
 				end else begin 
-
-				if (Counter >= 9'd319) begin
-					milestone1 <= milestone1_finish;
+					if (counter >= 9'd319) begin
+						milestone1 <= milestone1_finish;
+					end 
+				end
 			end
-
-
-
-	
-end
-
+			
+			default: milestone1 <= lead_in_0;
+			endcase
+			
+		end
+	end
 //**** use finish state and send to top FSM ****
-
-end module
+endmodule
