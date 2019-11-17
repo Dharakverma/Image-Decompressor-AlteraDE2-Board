@@ -40,6 +40,7 @@ typedef enum logic [3:0] {
 
 typedef enum logic [4:0] {
 	//12 lead in cases
+	lead_in_0,
 	lead_in_1,
 	lead_in_2,
 	lead_in_3,
@@ -59,7 +60,8 @@ typedef enum logic [4:0] {
 	common_case_3,
 	common_case_4,
 	common_case_5,
-	common_case_6
+	common_case_6,
+	milestone1_finish
 } milestone_state_type;
 
 

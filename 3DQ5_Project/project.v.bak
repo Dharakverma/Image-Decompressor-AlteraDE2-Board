@@ -162,12 +162,12 @@ logic m1_finish;
 milestone1 m1_unit(
 	.Clock(CLOCK_50_I),
 	.Resetn(resetn), 
-	.start_bit(m1_start_bit), //for leaving idle state
+	.start_bit(start_bit), //for leaving idle state
 	.SRAM_read_data(SRAM_read_data),
-	.write_data(m1_write_data),
-	.address(m1_address),
-	.write_en_n(m1_write_en_n),
-	.milestone1_finish(m1_finish)
+	.write_data(write_data),
+	.address(address),
+	.write_en_n(write_en_n),
+	.milestone1_finish(milestone1_finish)
 );
 
 // SRAM unit

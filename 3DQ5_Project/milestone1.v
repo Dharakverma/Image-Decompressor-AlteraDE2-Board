@@ -3,7 +3,7 @@
  
 `include "define_state.h"
 
-//mulitplier module which we will instentiate 3 times 
+//mulitplier module which we will instantiate 3 times 
 module Multiplier (
 	input int Mult_op_1, Mult_op_2,
 	output int Mult_result
@@ -17,11 +17,9 @@ endmodule
 
 //these mulitpliers are always running
 //do not assign these values in your always ff
-//**** need to add select statements in these multipliers to avoid errors in future, reference documentation ****
-
 
 module milestone1(
-	input logic Clock,
+	input logic CLOCK_50_I,
 	input logic Resetn,
 	input logic start_bit, //for leaving idle state
 	input logic [15:0] SRAM_read_data,
@@ -90,23 +88,23 @@ int signed_132251;
 
 Multiplier mult1(
 	.Mult_op_1(mult1_op1),
-	.Mult_op_1(mult1_op2),
+	.Mult_op_2(mult1_op2),
 	.Mult_result(mult1_out)
 );
 
 Multiplier mult2(
 	.Mult_op_1(mult2_op1),
-	.Mult_op_1(mult2_op2),
+	.Mult_op_2(mult2_op2),
 	.Mult_result(mult2_out)
 );
 
 Multiplier mult3(
-	.Mult_op_3(mult3_op1),
-	.Mult_op_3(mult3_op2),
+	.Mult_op_1(mult3_op1),
+	.Mult_op_2(mult3_op2),
 	.Mult_result(mult3_out)
 );
 
-always @(posedge Clock or negedge Resetn) begin
+always @(posedge CLOCK_50_I or negedge Resetn) begin
 	if (~Resetn) begin
 	//initailize all variables and registers as base values
 		value_R <= 8'd0;
