@@ -40,6 +40,7 @@ typedef enum logic [3:0] {
 
 typedef enum logic [4:0] {
 	//12 lead in cases
+	idle,
 	lead_in_0,
 	lead_in_1,
 	lead_in_2,

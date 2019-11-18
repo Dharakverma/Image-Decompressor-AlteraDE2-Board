@@ -11,9 +11,6 @@ add wave uut/top_state
 
 add wave -divider {M1 signals}
 add wave uut/m1_unit/milestone1
-add wave -dec uut/m1_unit/buff_reg_y
-add wave -dec uut/m1_unit/buff_reg_u
-add wave -dec uut/m1_unit/buff_reg_v
 add wave -dec uut/m1_unit/reg_y
 add wave -dec uut/m1_unit/reg_u
 add wave -dec uut/m1_unit/reg_v
