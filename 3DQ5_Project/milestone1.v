@@ -67,9 +67,9 @@ logic [31:0] mult2_op2;
 logic [31:0] mult3_op1;
 logic [31:0] mult3_op2;
 
-logic [31:0] mult1_out;
-logic [31:0] mult2_out;
-logic [31:0] mult3_out;
+logic signed [31:0] mult1_out;
+logic signed [31:0] mult2_out;
+logic signed [31:0] mult3_out;
 
 //constant ints for 32 bit signed arithmetic
 logic signed [31:0] signed_21;
@@ -272,15 +272,15 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			
 			common_case_0: begin
         
-        //finish computation for U'
+       			 //finish computation for U'
 				value_u_prime <= (mult1_out + mult2_out + mult3_out + signed_128) >>> 8; 
 				
 				//enable reading -> read (Veven, Vodd) values -> stores values in reg_v register
-				write_en_n <= 1'b1; 
+				write_en_n <= 1'b1;	
+				address <= address_v;
 
-				if (write_en_n == 1'b1 && read_cycle_en == 1'b1) begin
-					address <= address_v;
-					
+				if (read_cycle_en) begin
+					address_v <= address_v + 18'd1;
 				end
 
 				//Y matrix calculation for R value
@@ -301,14 +301,12 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			common_case_1: begin 
 				
 				write_en_n <= 1'b1;
+				address <= address_u;
 				
-				if (write_en_n == 1'b1 && read_cycle_en == 1'b1) begin
-					address <= address_u;
+				if (read_cycle_en) begin
+					address_u <= address_u + 18'd1;
 					
 				end
-
-				//flip the read_cycle_en bit so we do/do not read V and U values on the next cycle
-				read_cycle_en <= ~read_cycle_en;
 				
 				//use mutlipler output from previous cycle to finalize R value
 				matrix_value_y <= mult1_out;
@@ -345,7 +343,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//write R and G values to SRAM
 				write_en_n <= 1'b0;
 				address <= address_RGB;
-				write_data <= {value_R, ((matrix_value_y + mult1_out + mult2_out) >>> 16)};
+				write_data <= {value_R, {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
 				address_RGB <= address_RGB + 18'd1;
 
 				//compute V' for odd RGB value	
@@ -364,7 +362,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			
 			common_case_3: begin
 			  
-        write_en_n <= 1'b1;
+        		write_en_n <= 1'b1;
 				//finalize V' values and start computing U' for odd RGB values	
 
 				//finialize V' computation using mutliplier outputs from previous cycle
@@ -463,7 +461,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//write B and R values to SRAM
 				write_en_n <= 1'b0;
 				address <= address_RGB;
-				write_data <= {value_B, value_R};
+				write_data <= {value_B, {((mult1_out + mult2_out) >>> 16)}[7:0]};
 				address_RGB <= address_RGB + 18'd1;
 
 				//incriment counter everytime we write a B value, so we know when to exit the common_case loop
@@ -478,21 +476,24 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//use mutliplier output from previous cycle to finalize G value
 				matrix_value_u <= (mult1_out);
 				matrix_value_v <= (mult2_out);
-				value_G <= (matrix_value_y + mult1_out + mult2_out) >> 16;
+				value_G <= (matrix_value_y + mult1_out + mult2_out) >>> 16;
 
 				//use mutliplier output from previous cycle to finalize B value
 				matrix_value_u <= (mult3_out);
-				value_B <= (matrix_value_y + mult3_out + mult2_out) >> 16;
+				value_B <= (matrix_value_y + mult3_out ) >>> 16;
 
 				//write G and B values to SRAM
 				write_en_n <= 1'b0;
 				address <= address_RGB;
-				write_data <= {value_G, value_B};
+				write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
 				address_RGB <= address_RGB + 18'd1;
 
 				//store the y values from the read we initiated 3 cycles ago
 				reg_y[1] = SRAM_read_data[15:8];
 				reg_y[0] = SRAM_read_data[7:0];
+
+				//flip the read_cycle_en bit so we do/do not read V and U values on the next cycle
+				read_cycle_en <= ~read_cycle_en;
 			
 				if (counter < 9'd319) begin
 
