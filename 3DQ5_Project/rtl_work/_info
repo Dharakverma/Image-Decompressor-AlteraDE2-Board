@@ -3,71 +3,441 @@ K3
 13
 cModel Technology
 Z0 d\\Mac\Home\Documents\GitHub\3DQ5_FinalProject\3DQ5_Project
-vmilestone1
-!i10b 1
-!s100 z8>NT8EdH<o>7WNU<6zW73
-I2aUNGFCYJ[fW0]OKBcIRn3
-V`JN@9S9cnhjKRR_L]QIcM3
-Z1 !s105 milestone1_v_unit
+vClock_100_PLL
+Z1 DXx6 sv_std 3 std 0 22 F[19LRNL:5;XmIFh[XOPn1
+Z2 I67<oUb?FNU4C1@4LY^6TW1
+Z3 V7YUj[KX1eVDRk8:;<_[TU3
 S1
-Z2 d\\Mac\Home\Documents\GitHub\3DQ5_FinalProject\3DQ5_Project
-Z3 w1574028314
-Z4 8milestone1.v
-Z5 Fmilestone1.v
-L0 21
-Z6 OV;L;10.1d;51
-Z7 !s108 1574028318.745000
-Z8 !s107 define_state.h|milestone1.v|
-Z9 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|milestone1.v|
-!s101 -O0
-Z10 o-sv -work rtl_work -O0
-Z11 !s92 -sv -work rtl_work +define+DISABLE_DEFAULT_NET -O0
-Xmilestone1_v_unit
-Z12 DXx6 sv_std 3 std 0 22 F[19LRNL:5;XmIFh[XOPn1
-VA_Cj6X0l]b[8MPX?C34Q`0
+Z4 d\\Mac\Home\Documents\GitHub\3DQ5_FinalProject\3DQ5_Project
+Z5 w1573750693
+Z6 8Clock_100_PLL.v
+Z7 FClock_100_PLL.v
+L0 36
+Z8 OV;L;10.1d;51
 r1
-!s85 0
 31
+Z9 o-sv -work rtl_work -O0
+Z10 !s92 -sv -work rtl_work +define+DISABLE_DEFAULT_NET -O0
+Z11 n@clock_100_@p@l@l
+Z12 !s100 cfzDd_jkZoN2lY2;52M>^3
+Z13 !s105 Clock_100_PLL_v_unit
+Z14 !s108 1574098806.278000
+Z15 !s107 Clock_100_PLL.v|
+Z16 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|Clock_100_PLL.v|
 !i10b 1
-!s100 <`i8Vb_DlG9j8Izz1?6G81
-IA_Cj6X0l]b[8MPX?C34Q`0
-!i103 1
-S1
-R2
-R3
-R4
-R5
-Fdefine_state.h
-L1 4
-R6
-R7
-R8
-R9
+!s85 0
 !s101 -O0
-R10
-R11
-vMultiplier
-R12
-DXx4 work 17 milestone1_v_unit 0 22 A_Cj6X0l]b[8MPX?C34Q`0
-VHFWMIF:Oc7@i75Z[W^Zi;0
-r1
-!s85 0
-31
-!i10b 1
-!s100 KffV8zgJZ_j2R@bVBdeM11
-IiGcYHRRD?PZi[jo2J3R433
+vconvert_hex_to_seven_segment
 R1
+Z17 IR`We4n_L@nHN4k8JO]9ez1
+Z18 VBf[_m>fG_<7P7e;>ERPRM0
 S1
-R2
-R3
 R4
 R5
-L0 7
-R6
-R7
+Z19 8convert_hex_to_seven_segment.v
+Z20 Fconvert_hex_to_seven_segment.v
+L0 15
 R8
+r1
+31
 R9
-!s101 -O0
 R10
-R11
-n@multiplier
+Z21 !s100 B3Sd0AKU:Qz]Zc=;La^KN2
+Z22 !s105 convert_hex_to_seven_segment_v_unit
+Z23 !s108 1574098805.335000
+Z24 !s107 convert_hex_to_seven_segment.v|
+Z25 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|convert_hex_to_seven_segment.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vmilestone1
+R1
+Z26 DXx4 work 17 milestone1_v_unit 0 22 CkkhoQT47f87k;=<2M>O<3
+Z27 VgY4b9E`f=?K<fO?Ia2P471
+r1
+31
+Z28 IKXciWbbH6<OZNlefUVZz@0
+Z29 !s105 milestone1_v_unit
+S1
+R4
+Z30 w1574098792
+Z31 8milestone1.v
+Z32 Fmilestone1.v
+L0 22
+R8
+Z33 !s108 1574098805.192000
+Z34 !s107 define_state.h|milestone1.v|
+Z35 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|milestone1.v|
+R9
+R10
+Z36 !s100 OD[]V=_DLk;VDnzY1Zjmk1
+!s85 0
+!i10b 1
+!s101 -O0
+Xmilestone1_v_unit
+R1
+Z37 VCkkhoQT47f87k;=<2M>O<3
+r1
+31
+Z38 ICkkhoQT47f87k;=<2M>O<3
+S1
+R4
+R30
+R31
+R32
+Z39 Fdefine_state.h
+L1 4
+R8
+R33
+R34
+R35
+R9
+R10
+Z40 !s100 dBF8V1[2o@<NXJ5cKdW8<1
+!s85 0
+!i10b 1
+!i103 1
+!s101 -O0
+vMultiplier
+R1
+R26
+Z41 VHFWMIF:Oc7@i75Z[W^Zi;0
+r1
+31
+Z42 I0l`AQI2V6oS;VkN[GilS^0
+R29
+S1
+R4
+R30
+R31
+R32
+L0 8
+R8
+R33
+R34
+R35
+R9
+R10
+Z43 n@multiplier
+Z44 !s100 7^a80Hoe]YA5geD?UlVk93
+!s85 0
+!i10b 1
+!s101 -O0
+vPB_Controller
+R1
+Z45 IkIe^33MdP]YfnbRnLFM3[1
+Z46 VbkQg5OY7K?YWT1G8j2Pbi0
+S1
+R4
+R5
+Z47 8PB_Controller.v
+Z48 FPB_Controller.v
+L0 15
+R8
+r1
+31
+R9
+R10
+Z49 n@p@b_@controller
+Z50 !s100 ib8b?ilZFU0NiHB_9GEXl0
+Z51 !s105 PB_Controller_v_unit
+Z52 !s108 1574098805.522000
+Z53 !s107 PB_Controller.v|
+Z54 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|PB_Controller.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vproject
+R1
+Z55 DXx4 work 14 project_v_unit 0 22 HgccDRYz8fDW;O0cD:zh`2
+Z56 V4lYJKZd_R]1NMA:6K8UIE0
+r1
+31
+Z57 IU?idOYc5d_7J?_O2FYS]i2
+S1
+R4
+Z58 w1574090885
+Z59 8project.v
+Z60 Fproject.v
+L0 31
+R8
+Z61 !s108 1574098806.394000
+Z62 !s107 define_state.h|project.v|
+Z63 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|+define+SIMULATION|project.v|
+R9
+Z64 !s92 -sv -work rtl_work +define+DISABLE_DEFAULT_NET +define+SIMULATION -O0
+!s85 0
+!i10b 1
+Z65 !s100 LX]V7Mj92j6HD?zA05:902
+Z66 !s105 project_v_unit
+!s101 -O0
+Xproject_v_unit
+R1
+Z67 VHgccDRYz8fDW;O0cD:zh`2
+r1
+31
+Z68 IHgccDRYz8fDW;O0cD:zh`2
+S1
+R4
+R58
+R59
+R60
+R39
+L1 4
+R8
+R61
+R62
+R63
+R9
+R64
+!s85 0
+!i10b 1
+Z69 !s100 HGLUgj6``3HefSC3FNWoM0
+!i103 1
+!s101 -O0
+vSRAM_Controller
+R1
+Z70 I7L329XK2C1WBhkb_`?TDB2
+Z71 V5XU>4eb<gERPb=4VPDB<`1
+S1
+R4
+R5
+Z72 8SRAM_Controller.v
+Z73 FSRAM_Controller.v
+L0 17
+R8
+r1
+31
+R9
+Z74 n@s@r@a@m_@controller
+Z75 !s100 8`ZBJ@geg5SMJAR5Ig8c50
+Z76 !s105 SRAM_Controller_v_unit
+Z77 !s108 1574098805.620000
+Z78 !s107 SRAM_Controller.v|
+Z79 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|+define+SIMULATION|SRAM_Controller.v|
+R64
+!i10b 1
+!s85 0
+!s101 -O0
+vtb_project_v2
+R1
+!i10b 1
+!s100 Jo5nEdb25GHgHXX@RR^oZ3
+IlTA8Jj]kP>Pfkb527z=n91
+Vh8e:5mP<24Tad>HDWO75I1
+!s105 tb_project_v2_v_unit
+S1
+R4
+w1567306800
+8tb_project_v2.v
+Ftb_project_v2.v
+L0 49
+R8
+r1
+!s85 0
+31
+!s108 1574098806.544000
+!s107 tb_project_v2.v|
+!s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|tb_project_v2.v|
+!s101 -O0
+R9
+R10
+vtb_SRAM_Emulator
+R1
+Z80 I002YMFZnJd_<0V`kQJzY]3
+Z81 VNkgVPB?UIlEH1V^fa`:cl2
+S1
+R4
+R58
+Z82 8tb_SRAM_Emulator.v
+Z83 Ftb_SRAM_Emulator.v
+L0 16
+R8
+r1
+31
+R9
+R10
+Z84 ntb_@s@r@a@m_@emulator
+Z85 !s100 [9M>=8cY7LzdzjUJUa8Hm3
+Z86 !s105 tb_SRAM_Emulator_v_unit
+Z87 !s108 1574098805.723000
+Z88 !s107 tb_SRAM_Emulator.v|
+Z89 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|tb_SRAM_Emulator.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vUART_Receive_Controller
+R1
+Z90 DXx4 work 30 UART_Receive_Controller_v_unit 0 22 B2^`PN[SIlIJe]IR3jRGB0
+Z91 VU=O:9F<OJ5[jS^z[:R=_M3
+r1
+31
+Z92 I7L^g[RDUh:_oG@B4d8I2l0
+S1
+R4
+R5
+Z93 8UART_Receive_Controller.v
+Z94 FUART_Receive_Controller.v
+L0 24
+R8
+Z95 !s108 1574098805.831000
+Z96 !s107 define_state.h|UART_Receive_Controller.v|
+Z97 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|+define+SIMULATION|UART_Receive_Controller.v|
+R9
+R64
+Z98 n@u@a@r@t_@receive_@controller
+Z99 !s100 b@@1J:HbM_k71;AU]2ll>2
+Z100 !s105 UART_Receive_Controller_v_unit
+!s85 0
+!i10b 1
+!s101 -O0
+XUART_Receive_Controller_v_unit
+R1
+Z101 VB2^`PN[SIlIJe]IR3jRGB0
+r1
+31
+Z102 IB2^`PN[SIlIJe]IR3jRGB0
+S1
+R4
+R58
+R93
+R94
+R39
+L1 4
+R8
+R95
+R96
+R97
+R9
+R64
+Z103 n@u@a@r@t_@receive_@controller_v_unit
+Z104 !s100 J53o;G=?m7Q:=D`g;2_2o2
+!s85 0
+!i10b 1
+!i103 1
+!s101 -O0
+vUART_SRAM_interface
+R1
+Z105 DXx4 work 26 UART_SRAM_interface_v_unit 0 22 ;:64ESm?Xi22e51e6hW_;2
+Z106 VY5lf>5718Hd@;7Ha77aTF0
+r1
+31
+Z107 I]_Bd[aG6XX3ZfVjQ>oK><0
+S1
+R4
+R5
+Z108 8UART_SRAM_interface.v
+Z109 FUART_SRAM_interface.v
+L0 17
+R8
+Z110 !s108 1574098806.148000
+Z111 !s107 define_state.h|UART_SRAM_interface.v|
+Z112 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|UART_SRAM_interface.v|
+R9
+R10
+Z113 n@u@a@r@t_@s@r@a@m_interface
+Z114 !s100 ffBX>n`<9VdFnURL:HCli3
+Z115 !s105 UART_SRAM_interface_v_unit
+!s85 0
+!i10b 1
+!s101 -O0
+XUART_SRAM_interface_v_unit
+R1
+Z116 V;:64ESm?Xi22e51e6hW_;2
+r1
+31
+Z117 I;:64ESm?Xi22e51e6hW_;2
+S1
+R4
+R58
+R108
+R109
+R39
+L1 4
+R8
+R110
+R111
+R112
+R9
+R10
+Z118 n@u@a@r@t_@s@r@a@m_interface_v_unit
+Z119 !s100 H9_fk:LQ9AO^1_SYlkRE10
+!s85 0
+!i10b 1
+!i103 1
+!s101 -O0
+vVGA_Controller
+R1
+Z120 Il^h_6;J8Bh>n_<YfA02;?0
+Z121 V;HD9mML4T9E_1=05H1:nz0
+S1
+R4
+R5
+Z122 8VGA_Controller.v
+Z123 FVGA_Controller.v
+Z124 FVGA_Param.h
+L0 16
+R8
+r1
+31
+R9
+R10
+Z125 n@v@g@a_@controller
+Z126 !s100 LhVazT3F68@[GJSSnA3Y:2
+Z127 !s105 VGA_Controller_v_unit
+Z128 !s108 1574098805.427000
+Z129 !s107 VGA_Param.h|VGA_Controller.v|
+Z130 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|VGA_Controller.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vVGA_SRAM_interface
+R1
+Z131 DXx4 work 25 VGA_SRAM_interface_v_unit 0 22 ;KG2Kf`iTa69S4]6>d4bz3
+Z132 VRdmch[R10]Eoc>S3G1TQY0
+r1
+31
+Z133 I:?n9LjMA0DebOd8MiM?>;3
+S1
+R4
+R5
+Z134 8VGA_SRAM_interface.v
+Z135 FVGA_SRAM_interface.v
+L0 17
+R8
+Z136 !s108 1574098806.009000
+Z137 !s107 define_state.h|VGA_SRAM_interface.v|
+Z138 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|VGA_SRAM_interface.v|
+R9
+R10
+Z139 n@v@g@a_@s@r@a@m_interface
+Z140 !s100 Hbb[[X_]gTFaGgXXC6eQA0
+Z141 !s105 VGA_SRAM_interface_v_unit
+!s85 0
+!i10b 1
+!s101 -O0
+XVGA_SRAM_interface_v_unit
+R1
+Z142 V;KG2Kf`iTa69S4]6>d4bz3
+r1
+31
+Z143 I;KG2Kf`iTa69S4]6>d4bz3
+S1
+R4
+R58
+R134
+R135
+R39
+L1 4
+R8
+R136
+R137
+R138
+R9
+R10
+Z144 n@v@g@a_@s@r@a@m_interface_v_unit
+Z145 !s100 nGhG;?jh?3MTP1oTGP`zk1
+!s85 0
+!i10b 1
+!i103 1
+!s101 -O0

@@ -63,16 +63,16 @@ logic [31:0] value_v_prime;
 logic [31:0] Mult_op_1, Mult_op_2, Mult_result;
 logic [63:0] Mult_result_long;
 
-logic [7:0] mult1_op1;
-logic [7:0] mult1_op2;
-logic [7:0] mult2_op1;
-logic [7:0] mult2_op2;
-logic [7:0] mult3_op1;
-logic [7:0] mult3_op2;
+logic [31:0] mult1_op1;
+logic [31:0] mult1_op2;
+logic [31:0] mult2_op1;
+logic [31:0] mult2_op2;
+logic [31:0] mult3_op1;
+logic [31:0] mult3_op2;
 
-logic [7:0] mult1_out;
-logic [7:0] mult2_out;
-logic [7:0] mult3_out;
+logic [31:0] mult1_out;
+logic [31:0] mult2_out;
+logic [31:0] mult3_out;
 
 //constant ints for 32 bit signed arithmetic
 int signed_21;
@@ -114,14 +114,35 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 		matrix_value_y <= 8'd0;
 		matrix_value_u <= 8'd0;
 		matrix_value_v <= 8'd0;
-		value_u_prime <= 8'd0;
-		value_v_prime <= 8'd0;
+		value_u_prime <= 32'd0;
+		value_v_prime <= 32'd0;
 		read_cycle_en <= 16'd0;
 
 		address_y <= 18'd0;
 		address_u <= 18'd38400;
 		address_v <= 18'd57600;
 		address_RGB <= 18'd146944;
+
+		buff_reg_y[0] <= 8'd0;
+		buff_reg_y[1] <= 8'd0;
+		buff_reg_y[2] <= 8'd0;
+		buff_reg_y[3] <= 8'd0;
+		buff_reg_y[4] <= 8'd0;
+		buff_reg_y[5] <= 8'd0;
+
+		buff_reg_v[0] <= 8'd0;
+		buff_reg_v[1] <= 8'd0;
+		buff_reg_v[2] <= 8'd0;
+		buff_reg_v[3] <= 8'd0;
+		buff_reg_v[4] <= 8'd0;
+		buff_reg_v[5] <= 8'd0;
+
+		buff_reg_u[0] <= 8'd0;
+		buff_reg_u[1] <= 8'd0;
+		buff_reg_u[2] <= 8'd0;
+		buff_reg_u[3] <= 8'd0;
+		buff_reg_u[4] <= 8'd0;
+		buff_reg_u[5] <= 8'd0;
 
 		reg_y[0] <= 8'd0;
 		reg_y[1] <= 8'd0;
@@ -146,14 +167,14 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 		
 		//assign the constants for multiplying 
 		signed_21 <= 32'd21;
-		signed_neg_52 <= 32'd52;
+		signed_neg_52 <= -32'd52;
 		signed_159 <= 32'd159;
 		signed_128 <= 32'd128;
 		signed_76284 <= 32'd76284;
 		signed_16 <= 32'd16;
-		signed_neg_25624 <= 32'd25624;
+		signed_neg_25624 <= -32'd25624;
 		signed_104595 <= 32'd104595;
-		signed_neg_53281 <= 32'd53281;
+		signed_neg_53281 <= -32'd53281;
 		signed_132251 <= 32'd132251;
 
 		counter <= 9'd0;
@@ -177,6 +198,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			lead_in_1: begin
+
 				address <= address_v;
 				address_v <= address_v + 18'd1;
 
@@ -185,6 +207,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			lead_in_2: begin
+
 				address <= address_u;
 				address_u <= address_u + 18'd1; 
 				
@@ -207,6 +230,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			lead_in_4: begin
+
 				address <= address_y;
 				address_y <= address_y + 18'd1;
 				
@@ -220,9 +244,9 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			lead_in_5: begin
 				
 				mult1_op1 <= signed_21;
-				mult1_op2 <=(reg_v[0] + reg_v[5]); //the u values we require will always be at the start and end of our register
+				mult1_op2 <= (reg_v[0] + reg_v[5]); //the u values we require will always be at the start and end of our register
 				
-				mult2_op1 <= signed_neg_52; //how do i make this negative
+				mult2_op1 <= signed_neg_52;
 				mult2_op2 <= (reg_v[1] + reg_v[4]);
 				
 				mult3_op1 <= signed_159;
@@ -247,6 +271,9 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			lead_in_7: begin
+
+				//finish computation for V'
+				value_v_prime <= $signed(mult1_out + mult2_out + mult3_out + signed_128) >>> 8; 
 				
 				reg_y[1] = SRAM_read_data[15:8];
 				reg_y[0] = SRAM_read_data[7:0];
@@ -254,7 +281,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				mult1_op1 <= signed_21;
 				mult1_op2 <=(reg_u[0] + reg_u[5]); //the u values we require will always be at the start and end of our register
 				
-				mult2_op1 <= signed_neg_52; //how do i make this negative
+				mult2_op1 <= signed_neg_52; 
 				mult2_op2 <= (reg_u[1] + reg_u[4]);
 				
 				mult3_op1 <= signed_159;
@@ -345,7 +372,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				mult1_op1 <= signed_21;
 				mult1_op2 <=(reg_v[0] + reg_v[5]); //the u values we require will always be at the start and end of our register
 				
-				mult2_op1 <= signed_neg_52; //how do i make this negative
+				mult2_op1 <= signed_neg_52; 
 				mult2_op2 <= (reg_v[1] + reg_v[4]);
 				
 				mult3_op1 <= signed_159;
@@ -365,14 +392,13 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//finalize V' values and start computing U' for odd RGB values	
 
 				//finialize V' computation using mutliplier outputs from previous cycle
-				value_v_prime <= mult1_out + mult2_out + mult3_out + signed_128; 
-				value_v_prime <= $signed(value_v_prime) >>> 8; // this is equivalent to dividing by 256 (2^8)
+				value_v_prime <= $signed(mult1_out + mult2_out + mult3_out + signed_128) >>> 8; 
 
 				//fill multipliers with new values to compute odd U'
 				mult1_op1 <= signed_21;
 				mult1_op2 <=(reg_u[0] + reg_u[5]); //the u values we require will always be at the start and end of our register
 				
-				mult2_op1 <= signed_neg_52; //how do i make this negative
+				mult2_op1 <= signed_neg_52; 
 				mult2_op2 <= (reg_u[1] + reg_u[4]);
 				
 				mult3_op1 <= signed_159;
@@ -420,8 +446,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				if (read_cycle_en == 1'b1) begin //***** may need to remove this if statement from all cases since we are computing even and odd RGB values per cycle
 
 					//finialize U' computation using mutliplier outputs from previous cycle
-					value_u_prime <= mult1_out + mult2_out + mult3_out + signed_128; 
-					value_u_prime <= $signed(value_u_prime) >>> 8; // this is equivalent to dividing by 256 (2^8)
+					value_u_prime <= $signed(mult1_out + mult2_out + mult3_out + signed_128) >>> 8; 
 
 				end
 
