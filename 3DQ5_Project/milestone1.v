@@ -113,7 +113,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 		matrix_value_v <= 8'd0;
 		value_u_prime <= 32'd0;
 		value_v_prime <= 32'd0;
-		read_cycle_en <= 16'd0;
+		read_cycle_en <= 1'd1;
 
 		address_y <= 18'd0;
 		address_u <= 18'd38400;
@@ -179,7 +179,6 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			lead_in_1: begin
 
 				address <= address_v;
-				address_v <= address_v + 18'd1;
 
 				milestone1 <= lead_in_2;
 				
@@ -197,7 +196,6 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			lead_in_3: begin
 
 				address <= address_u;
-				address_u <= address_u + 18'd1; 
 				
 				reg_v[5] <= SRAM_read_data[15:8];
 				reg_v[4] <= SRAM_read_data[15:8];
@@ -278,10 +276,11 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//enable reading -> read (Veven, Vodd) values -> stores values in reg_v register
 				write_en_n <= 1'b1;	
 				address <= address_v;
-
+				
 				if (read_cycle_en) begin
 					address_v <= address_v + 18'd1;
 				end
+
 
 				//Y matrix calculation for R value
 				//the output of this multiplication will be available in the next cycle
@@ -387,23 +386,27 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//index 4 == V(j+3/2)
 				//index 5 == V(j+5/2)
 				//need to create a buffer register and shift only 1 out of 2 of the SRAM values into this register per cycle
-				if(read_cycle_en)begin
-				  reg_v[5] <= SRAM_read_data[7:0];
-				  reg_v[3] <= reg_v[4];
-				  reg_v[2] <= reg_v[3];
-				  reg_v[1] <= reg_v[2];
-				  reg_v[0] <= reg_v[1];
+				if(read_cycle_en) begin
+					reg_v[0] <= reg_v[1];
+					reg_v[1] <= reg_v[2];
+					reg_v[2] <= reg_v[3];
+					reg_v[3] <= reg_v[4];
+					reg_v[4] <= reg_v[5];
+					reg_v[5] <= SRAM_read_data[7:0];
+
 				end else begin
-				  reg_v[5] <= SRAM_read_data[15:8];
-				  reg_v[3] <= reg_v[4];
-				  reg_v[2] <= reg_v[3];
-				  reg_v[1] <= reg_v[2];
-				  reg_v[0] <= reg_v[1];
+					reg_v[0] <= reg_v[1];
+					reg_v[1] <= reg_v[2];
+					reg_v[2] <= reg_v[3];
+					reg_v[3] <= reg_v[4];
+					reg_v[4] <= reg_v[5];
+					reg_v[5] <= SRAM_read_data[15:8];
 				end
 				
 
 				//initiate read for new Y values
 				address <= address_y;
+				address_y <= address_y + 18'd1;
 
 				milestone1 <= common_case_4;
 
@@ -413,20 +416,6 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			 
 				value_u_prime <= (mult1_out + mult2_out + mult3_out + signed_128) >>> 8; 
 
-				if(read_cycle_en)begin
-				  reg_u[5] <= SRAM_read_data[7:0];
-				  reg_u[3] <= reg_u[4];
-				  reg_u[2] <= reg_u[3];
-				  reg_u[1] <= reg_u[2];
-				  reg_u[0] <= reg_u[1];
-				end else begin
-				  reg_u[5] <= SRAM_read_data[15:8];
-				  reg_u[3] <= reg_u[4];
-				  reg_u[2] <= reg_u[3];
-				  reg_u[1] <= reg_u[2];
-				  reg_u[0] <= reg_u[1];
-				end
-
 				//Y matrix calculation for R value
 				mult1_op1 <= signed_76284;
 				mult1_op2 <= (reg_y[0] - signed_16);
@@ -434,13 +423,30 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//V matrix calculation for R value
 				mult2_op1 <= signed_104595;
 				mult2_op2 <= (value_v_prime - signed_128);
+				
+				if(read_cycle_en) begin
+					reg_u[0] <= reg_u[1];
+					reg_u[1] <= reg_u[2];
+					reg_u[2] <= reg_u[3];
+					reg_u[3] <= reg_u[4];
+					reg_u[4] <= reg_u[5];
+					reg_u[5] <= SRAM_read_data[7:0];
 
+				end else begin
+					reg_u[0] <= reg_u[1];
+					reg_u[1] <= reg_u[2];
+					reg_u[2] <= reg_u[3];
+					reg_u[3] <= reg_u[4];
+					reg_u[4] <= reg_u[5];
+					reg_u[5] <= SRAM_read_data[15:8];
+				end
 				milestone1 <= common_case_5;
 
 			end
 
 			common_case_5: begin
 
+				
 				//use mutlipler output from previous cycle to finalize R value
 				matrix_value_y <= (mult1_out);
 				matrix_value_v <= (mult2_out);

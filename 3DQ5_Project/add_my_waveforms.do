@@ -11,9 +11,9 @@ add wave uut/top_state
 
 add wave -divider {M1 signals}
 add wave uut/m1_unit/milestone1
-add wave -dec uut/m1_unit/reg_y
-add wave -dec uut/m1_unit/reg_u
-add wave -dec uut/m1_unit/reg_v
+add wave -unsigned uut/m1_unit/reg_y
+add wave -unsigned uut/m1_unit/reg_u
+add wave -unsigned uut/m1_unit/reg_v
 add wave -dec uut/m1_unit/mult1_op1
 add wave -dec uut/m1_unit/mult1_op2
 add wave -dec uut/m1_unit/mult2_op1
@@ -23,14 +23,18 @@ add wave -dec uut/m1_unit/mult3_op2
 add wave -dec uut/m1_unit/mult1_out
 add wave -dec uut/m1_unit/mult2_out
 add wave -dec uut/m1_unit/mult3_out
-add wave -dec uut/m1_unit/value_v_prime
-add wave -dec uut/m1_unit/value_u_prime
+add wave -unsigned uut/m1_unit/value_v_prime
+add wave -unsigned uut/m1_unit/value_u_prime
 add wave -dec uut/m1_unit/matrix_value_y
 add wave -dec uut/m1_unit/matrix_value_u
 add wave -dec uut/m1_unit/matrix_value_v
-add wave -dec uut/m1_unit/value_R
-add wave -dec uut/m1_unit/value_G
-add wave -dec uut/m1_unit/value_B
+add wave -unsigned uut/m1_unit/value_R
+add wave -unsigned uut/m1_unit/value_G
+add wave -unsigned uut/m1_unit/value_B
+add wave -dec uut/m1_unit/read_cycle_en
+add wave -dec uut/m1_unit/address_y
+add wave -dec uut/m1_unit/address_u
+add wave -dec uut/m1_unit/address_v
 
 
 
