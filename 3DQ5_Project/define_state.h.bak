@@ -4,7 +4,8 @@
 typedef enum logic [1:0] {
 	S_IDLE,
 	S_ENABLE_UART_RX,
-	S_WAIT_UART_RX
+	S_WAIT_UART_RX,
+    S_top_m1
 } top_state_type;
 
 typedef enum logic [1:0] {
@@ -36,6 +37,34 @@ typedef enum logic [3:0] {
 	S_VS_FETCH_PIXEL_DATA_2,
 	S_VS_FETCH_PIXEL_DATA_3
 } VGA_SRAM_state_type;
+
+typedef enum logic [4:0] {
+	//12 lead in cases
+	lead_in_0,
+	lead_in_1,
+	lead_in_2,
+	lead_in_3,
+	lead_in_4,
+	lead_in_5,
+	lead_in_6,
+	lead_in_7,
+	lead_in_8,
+	lead_in_9,
+	lead_in_10,
+	lead_in_11,
+	lead_in_12,
+	//7 common cases
+	common_case_0,
+	common_case_1,
+	common_case_2,
+	common_case_3,
+	common_case_4,
+	common_case_5,
+	common_case_6
+	milestone1_finish
+} milestone_state_type;
+
+
 
 `define DEFINE_STATE 1
 `endif
