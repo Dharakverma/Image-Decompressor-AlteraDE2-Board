@@ -164,7 +164,8 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			
 			idle: begin
 			 if(start_bit)begin
-			   milestone1 <= lead_in_0;
+			 	write_en_n <= 1'b1;
+			   	milestone1 <= lead_in_0;
 			 end
 			end
 			
@@ -971,9 +972,13 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				counter <= 9'd0;
 				
 				if (counter_vert < 8'd179) begin
+
 				  milestone1 <= lead_in_0;
+
 				end else begin
-			  	  milestone1 <= milestone1_done;
+				
+					write_en_n <= 1'b1;
+			  	  	milestone1 <= milestone1_done;
 				 
 				end
 			end

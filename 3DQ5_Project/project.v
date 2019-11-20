@@ -201,7 +201,9 @@ always @(posedge CLOCK_50_I or negedge resetn) begin
 		UART_timer <= 26'd0;
 		
 		VGA_enable <= 1'b1;
+
 	end else begin
+
 		UART_rx_initialize <= 1'b0; 
 		UART_rx_enable <= 1'b0; 
 		
@@ -211,8 +213,11 @@ always @(posedge CLOCK_50_I or negedge resetn) begin
 		else UART_timer <= UART_timer + 26'd1;
 
 		case (top_state)
+
 		S_IDLE: begin
+
 			VGA_enable <= 1'b1;   
+
 			if (~UART_RX_I | PB_pushed[0]) begin
 				// UART detected a signal, or PB0 is pressed
 				UART_rx_initialize <= 1'b1;
@@ -221,19 +226,26 @@ always @(posedge CLOCK_50_I or negedge resetn) begin
 								
 				top_state <= S_ENABLE_UART_RX;
 			end
+
 `ifdef SIMULATION
+
 			if (UART_timer == 26'd10) begin
 				m1_start_bit <= 1'b1;
 				top_state <= S_top_m1;
 			end
+
 `endif
+
 		end
+
 		S_ENABLE_UART_RX: begin
 			// Enable the UART receiver
 			UART_rx_enable <= 1'b1;
 			top_state <= S_WAIT_UART_RX;
 		end
+
 		S_WAIT_UART_RX: begin
+
 			if ((UART_timer == 26'd49999999) && (UART_SRAM_address != 18'h00000)) begin
 				// Timeout for 1 sec on UART for detecting if file transmission is finished
 				UART_rx_initialize <= 1'b1;
@@ -244,6 +256,7 @@ always @(posedge CLOCK_50_I or negedge resetn) begin
 		end
 
 		S_top_m1: begin
+		
 			m1_start_bit <= 1'b0;
 			
 			if (m1_finish) begin
