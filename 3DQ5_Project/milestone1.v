@@ -348,7 +348,45 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//write R and G values to SRAM
 				write_en_n <= 1'b0;
 				address <= address_RGB;
-				write_data <= {value_R, {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
+
+				//if ANY value needs to be clipped, enter this conditional statement
+				if (({value_R}[7:0] < 8'd0) || ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0) || (({value_R}[7:0] > 8'd255) || ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255))) begin
+
+					//if both values are above 255
+					if (({value_R}[7:0] > 8'd255) && ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255)) begin
+						write_data <= {8'd255, 8'd255};
+					//if both values are below 0
+					end else if (({value_R}[7:0] < 8'd0) && ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0)) begin
+						write_data <= {8'd0, 8'd0};
+					//if R is above 255 AND G is below 0 
+					end else if (({value_R}[7:0] > 8'd255) && ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0)) begin
+						write_data <= {8'd255, 8'd0};
+					//if R is below 0 AND G is above 255
+					end else if (({value_R}[7:0] < 8'd0) && ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255)) begin
+						write_data <= {8'd0, 8'd255};
+					//if R values is below 0
+					end else if ({value_R}[7:0] < 8'd0) begin
+						write_data <= {8'd0, {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
+					//if R value is above 255
+					end else if ({value_R}[7:0] > 8'd255) begin
+						write_data <= {8'd255, {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
+					//if G value is below 0
+					end else if ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0) begin
+						write_data <= {{value_R}[7:0], 8'd0};
+					//if G value is above 255
+					end else if ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255) begin
+						write_data <= {{value_R}[7:0], 8'd255};
+						
+				 	 //if no  values need to be clipped
+			   		end else begin
+		
+					   write_data <= {{value_R}[7:0], {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
+          
+     			  	end
+				end
+
+				//write_data <= {{value_R}[7:0], {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
+
 				address_RGB <= address_RGB + 18'd1;
 
 				//compute V' for odd RGB value	
@@ -497,7 +535,45 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//write B and R values to SRAM
 				write_en_n <= 1'b0;
 				address <= address_RGB;
-				write_data <= {value_B, {((mult1_out + mult2_out) >>> 16)}[7:0]};
+
+				//if ANY value needs to be clipped, enter this conditional statement
+				if (({value_B}[7:0] < 8'd0) || ({((mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0) || (({value_B}[7:0] > 8'd255) || ({((mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255))) begin
+
+					//if both values are above 255
+					if (({value_B}[7:0] > 8'd255) && ({((mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255)) begin
+						write_data <= {8'd255, 8'd255};
+					//if both values are below 0
+					end else if (({value_B}[7:0] < 8'd0) && ({((mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0)) begin
+						write_data <= {8'd0, 8'd0};
+					//if B is above 255 AND R is below 0 
+					end else if (({value_B}[7:0] > 8'd255) && ({((mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0)) begin
+						write_data <= {8'd255, 8'd0};
+					//if B is below 0 AND R is above 255
+					end else if (({value_B}[7:0] < 8'd0) && ({((mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255)) begin
+						write_data <= {8'd0, 8'd255};
+					//if B values is below 0
+					end else if ({value_B}[7:0] < 8'd0) begin
+						write_data <= {8'd0, {((mult1_out + mult2_out) >>> 16)}[7:0]};
+					//if B value is above 255
+					end else if ({value_B}[7:0] > 8'd255) begin
+						write_data <= {8'd255, {((mult1_out + mult2_out) >>> 16)}[7:0]};
+					//if R value is below 0
+					end else if ({((mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0) begin
+						write_data <= {{value_B}[7:0], 8'd0};
+					//if R value is above 255
+					end else if ({((mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255) begin
+						write_data <= {{value_B}[7:0], 8'd255};
+						
+				  	//if no  values need to be clipped
+			   		end else begin
+		
+					write_data <= {{value_B}[7:0], {((mult1_out + mult2_out) >>> 16)}[7:0]};
+          
+          			end
+				end
+
+				//write_data <= {{value_B}[7:0], {((mult1_out + mult2_out) >>> 16)}[7:0]};
+
 				address_RGB <= address_RGB + 18'd1;
 
 				//incriment counter everytime we write a B value, so we know when to exit the common_case loop
@@ -521,7 +597,45 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//write G and B values to SRAM
 				write_en_n <= 1'b0;
 				address <= address_RGB;
-				write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
+
+				//if ANY value needs to be clipped, enter this conditional statement
+				if (({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255) || ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0) || ({((matrix_value_y + mult3_out) >>> 16)}[7:0] > 8'd255) || ({((matrix_value_y + mult3_out) >>> 16)}[7:0] < 8'd0)) begin
+
+					//if both values are above 255
+					if (({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255) &&  ({((matrix_value_y + mult3_out) >>> 16)}[7:0] > 8'd255)) begin
+						write_data <= {8'd255, 8'd255};
+					//if both values are below 0
+					end else if (({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0) &&  ({((matrix_value_y + mult3_out) >>> 16)}[7:0] < 8'd0)) begin
+						write_data <= {8'd0, 8'd0};
+					//if G is above 255 AND B is below 0 
+					end else if (({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255) &&  ({((matrix_value_y + mult3_out) >>> 16)}[7:0] < 8'd0)) begin
+						write_data <= {8'd255, 8'd0};
+					//if G is below 0 AND B is above 255
+					end else if (({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0) &&  ({((matrix_value_y + mult3_out) >>> 16)}[7:0] > 8'd255)) begin
+						write_data <= {8'd0, 8'd255};
+					//if G values is below 0
+					end else if ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0) begin
+						write_data <= {8'd0, {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
+					//if G value is above 255
+					end else if ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255) begin
+						write_data <= {8'd255, {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
+					//if B value is below 0
+					end else if ({((matrix_value_y + mult3_out) >>> 16)}[7:0] < 8'd0) begin
+						write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], 8'd0};
+					//if B value is above 255
+					end else if ({((matrix_value_y + mult3_out) >>> 16)}[7:0] > 8'd255) begin
+						write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], 8'd255};
+						
+				  	//if no  values need to be clipped
+			   		end else begin
+		
+						write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
+          
+          			end
+				end
+
+				//write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
+
 				address_RGB <= address_RGB + 18'd1;
 				counter <= counter + 9'd1;
 
@@ -601,7 +715,45 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//write R and G values to SRAM
 				write_en_n <= 1'b0;
 				address <= address_RGB;
-				write_data <= {value_R, {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
+
+				//if ANY value needs to be clipped, enter this conditional statement
+				if (({value_R}[7:0] < 8'd0) || ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0) || (({value_R}[7:0] > 8'd255) || ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255))) begin
+
+					//if both values are above 255
+					if (({value_R}[7:0] > 8'd255) && ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255)) begin
+						write_data <= {8'd255, 8'd255};
+					//if both values are below 0
+					end else if (({value_R}[7:0] < 8'd0) && ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0)) begin
+						write_data <= {8'd0, 8'd0};
+					//if R is above 255 AND G is below 0 
+					end else if (({value_R}[7:0] > 8'd255) && ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0)) begin
+						write_data <= {8'd255, 8'd0};
+					//if R is below 0 AND G is above 255
+					end else if (({value_R}[7:0] < 8'd0) && ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255)) begin
+						write_data <= {8'd0, 8'd255};
+					//if R values is below 0
+					end else if ({value_R}[7:0] < 8'd0) begin
+						write_data <= {8'd0, {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
+					//if R value is above 255
+					end else if ({value_R}[7:0] > 8'd255) begin
+						write_data <= {8'd255, {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
+					//if G value is below 0
+					end else if ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0) begin
+						write_data <= {{value_R}[7:0], 8'd0};
+					//if G value is above 255
+					end else if ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255) begin
+						write_data <= {{value_R}[7:0], 8'd255};
+						
+				  	//if no  values need to be clipped
+			   		end else begin
+		
+						write_data <= {{value_R}[7:0], {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
+          
+          			end
+				end
+
+				//write_data <= {{value_R}[7:0], {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
+
 				address_RGB <= address_RGB + 18'd1;
 
 				//compute V' for odd RGB value	
@@ -706,7 +858,45 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//write B and R values to SRAM
 				write_en_n <= 1'b0;
 				address <= address_RGB;
-				write_data <= {value_B, {((mult1_out + mult2_out) >>> 16)}[7:0]};
+
+				//if ANY value needs to be clipped, enter this conditional statement
+				if (({value_B}[7:0] < 8'd0) || ({((mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0) || (({value_B}[7:0] > 8'd255) || ({((mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255))) begin
+
+					//if both values are above 255
+					if (({value_B}[7:0] > 8'd255) && ({((mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255)) begin
+						write_data <= {8'd255, 8'd255};
+					//if both values are below 0
+					end else if (({value_B}[7:0] < 8'd0) && ({((mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0)) begin
+						write_data <= {8'd0, 8'd0};
+					//if B is above 255 AND R is below 0 
+					end else if (({value_B}[7:0] > 8'd255) && ({((mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0)) begin
+						write_data <= {8'd255, 8'd0};
+					//if B is below 0 AND R is above 255
+					end else if (({value_B}[7:0] < 8'd0) && ({((mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255)) begin
+						write_data <= {8'd0, 8'd255};
+					//if B values is below 0
+					end else if ({value_B}[7:0] < 8'd0) begin
+						write_data <= {8'd0, {((mult1_out + mult2_out) >>> 16)}[7:0]};
+					//if B value is above 255
+					end else if ({value_B}[7:0] > 8'd255) begin
+						write_data <= {8'd255, {((mult1_out + mult2_out) >>> 16)}[7:0]};
+					//if R value is below 0
+					end else if ({((mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0) begin
+						write_data <= {{value_B}[7:0], 8'd0};
+					//if R value is above 255
+					end else if ({((mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255) begin
+						write_data <= {{value_B}[7:0], 8'd255};
+						
+				  	//if no  values need to be clipped
+			   		end else begin
+		
+					write_data <= {{value_B}[7:0], {((mult1_out + mult2_out) >>> 16)}[7:0]};
+          
+          			end
+				end
+
+				//write_data <= {{value_B}[7:0], {((mult1_out + mult2_out) >>> 16)}[7:0]};
+
 				address_RGB <= address_RGB + 18'd1;
 				
 				counter <= counter + 9'd1;
@@ -728,10 +918,45 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//write G and B values to SRAM
 				write_en_n <= 1'b0;
 				address <= address_RGB;
-				write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
+
+				//if ANY value needs to be clipped, enter this conditional statement
+				if (({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255) || ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0) || ({((matrix_value_y + mult3_out) >>> 16)}[7:0] > 8'd255) || ({((matrix_value_y + mult3_out) >>> 16)}[7:0] < 8'd0)) begin
+
+					//if both values are above 255
+					if (({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255) &&  ({((matrix_value_y + mult3_out) >>> 16)}[7:0] > 8'd255)) begin
+						write_data <= {8'd255, 8'd255};
+					//if both values are below 0
+					end else if (({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0) &&  ({((matrix_value_y + mult3_out) >>> 16)}[7:0] < 8'd0)) begin
+						write_data <= {8'd0, 8'd0};
+					//if G is above 255 AND B is below 0 
+					end else if (({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255) &&  ({((matrix_value_y + mult3_out) >>> 16)}[7:0] < 8'd0)) begin
+						write_data <= {8'd255, 8'd0};
+					//if G is below 0 AND B is above 255
+					end else if (({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0) &&  ({((matrix_value_y + mult3_out) >>> 16)}[7:0] > 8'd255)) begin
+						write_data <= {8'd0, 8'd255};
+					//if G values is below 0
+					end else if ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] < 8'd0) begin
+						write_data <= {8'd0, {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
+					//if G value is above 255
+					end else if ({((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0] > 8'd255) begin
+						write_data <= {8'd255, {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
+					//if B value is below 0
+					end else if ({((matrix_value_y + mult3_out) >>> 16)}[7:0] < 8'd0) begin
+						write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], 8'd0};
+					//if B value is above 255
+					end else if ({((matrix_value_y + mult3_out) >>> 16)}[7:0] > 8'd255) begin
+						write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], 8'd255};
+						
+				  	//if no  values need to be clipped
+			   		end else begin
+		
+					write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
+          
+          			end
+				end
+
 				address_RGB <= address_RGB + 18'd1;
 				
-					
 				address_v <= address_v + 18'd1;
 				address_u <= address_u + 18'd1;
 				
@@ -748,7 +973,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				if (counter_vert < 8'd179) begin
 				  milestone1 <= lead_in_0;
 				end else begin
-			    milestone1 <= milestone1_done;
+			  	  milestone1 <= milestone1_done;
 				 
 				end
 			end
