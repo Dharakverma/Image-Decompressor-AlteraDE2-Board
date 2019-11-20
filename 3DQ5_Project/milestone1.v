@@ -971,7 +971,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				
 				counter <= 9'd0;
 				
-				if (counter_vert < 8'd179) begin
+				if (counter_vert < 8'd239) begin
 
 				  milestone1 <= lead_in_0;
 
