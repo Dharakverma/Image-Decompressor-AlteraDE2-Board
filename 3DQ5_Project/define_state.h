@@ -62,6 +62,14 @@ typedef enum logic [4:0] {
 	common_case_4,
 	common_case_5,
 	common_case_6,
+	//7 lead out cases
+	lead_out_0,
+	lead_out_1,
+	lead_out_2,
+	lead_out_3,
+	lead_out_4,
+	lead_out_5,
+	lead_out_6,
 	milestone1_done
 } milestone_state_type;
 

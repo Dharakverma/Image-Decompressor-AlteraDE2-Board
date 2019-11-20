@@ -31,10 +31,12 @@ add wave -dec uut/m1_unit/matrix_value_v
 add wave -unsigned uut/m1_unit/value_R
 add wave -unsigned uut/m1_unit/value_G
 add wave -unsigned uut/m1_unit/value_B
-add wave -dec uut/m1_unit/read_cycle_en
+add wave -unsigned uut/m1_unit/read_cycle_en
 add wave -dec uut/m1_unit/address_y
 add wave -dec uut/m1_unit/address_u
 add wave -dec uut/m1_unit/address_v
+add wave -unsigned uut/m1_unit/counter
+add wave -unsigned uut/m1_unit/counter_vert
 
 
 

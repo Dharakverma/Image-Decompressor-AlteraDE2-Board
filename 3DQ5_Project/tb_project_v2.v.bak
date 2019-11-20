@@ -27,7 +27,7 @@ you will get false errors, so use the original testbench instead.
 // This is the top testbench file
 
 `define FEOF 32'hFFFFFFFF
-`define MAX_MISMATCHES 50
+`define MAX_MISMATCHES 4
 
 // file for output
 // this is only useful if decoding is done all the way through (e.g. milestone 1 is used)
