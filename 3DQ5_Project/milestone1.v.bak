@@ -206,10 +206,10 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 				address <= address_u;
 				
-				reg_v[0] <= SRAM_read_data[15:8];
-				reg_v[1] <= SRAM_read_data[15:8];
-				reg_v[2] <= SRAM_read_data[15:8];
-				reg_v[3] <=	SRAM_read_data[7:0];
+				reg_v[5] <= SRAM_read_data[15:8];
+				reg_v[4] <= SRAM_read_data[15:8];
+				reg_v[3] <= SRAM_read_data[15:8];
+				reg_v[2] <=	SRAM_read_data[7:0];
 				
 				address_u <= address_u + 18'd1; 
 				
@@ -222,8 +222,8 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				address <= address_y;
 				address_y <= address_y + 18'd1;
 				
-				reg_v[4] <= SRAM_read_data[15:8];
-				reg_v[5] <= SRAM_read_data[7:0];
+				reg_v[1] <= SRAM_read_data[15:8];
+				reg_v[0] <= SRAM_read_data[7:0];
 				
 				milestone1 <= lead_in_5;
 				
@@ -240,10 +240,10 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				mult3_op1 <= signed_159;
 				mult3_op2 <= (reg_v[2] + reg_v[3]);
 			
-				reg_u[0] <= SRAM_read_data[15:8];
-				reg_u[1] <= SRAM_read_data[15:8];
-				reg_u[2] <= SRAM_read_data[15:8];
-				reg_u[3] <=	SRAM_read_data[7:0];
+				reg_u[5] <= SRAM_read_data[15:8];
+				reg_u[4] <= SRAM_read_data[15:8];
+				reg_u[3] <= SRAM_read_data[15:8];
+				reg_u[2] <=	SRAM_read_data[7:0];
 				
 				milestone1 <= lead_in_6;
 				
@@ -254,8 +254,8 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			  //finish computation for V'
 				value_v_prime <= (mult1_out + mult2_out + mult3_out + signed_128) >>> 8;  
 			  
-				reg_u[4] <= SRAM_read_data[15:8];
-				reg_u[5] <= SRAM_read_data[7:0];
+				reg_u[1] <= SRAM_read_data[15:8];
+				reg_u[0] <= SRAM_read_data[7:0];
 				
 				milestone1 <= lead_in_7;
 			
@@ -288,7 +288,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				write_en_n <= 1'b1;	
 				address <= address_v;
 				
-				if (read_cycle_en && counter <  9'd310) begin
+				if (read_cycle_en && counter <  9'd309) begin
 					address_v <= address_v + 18'd1;
 				end
 
@@ -313,7 +313,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				write_en_n <= 1'b1;
 				address <= address_u;
 				
-				if (read_cycle_en && counter <  9'd310) begin
+				if (read_cycle_en && counter <  9'd309) begin
 					address_u <= address_u + 18'd1;
 					
 				end
@@ -353,6 +353,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//write R and G values to SRAM
 				write_en_n <= 1'b0;
 				address <= address_RGB;
+<<<<<<< HEAD
 
 				//if ANY value needs to be clipped, enter this conditional statement
 				if ((clipped_value_R < 8'd0) || (clipped_value_G < 8'd0) || ((clipped_value_R > 8'd255) || (clipped_value_G > 8'd255))) begin
@@ -392,6 +393,9 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 				//write_data <= {{value_R}[7:0], {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
 
+=======
+				write_data <= {value_R, {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
+>>>>>>> parent of 4d7210a... M1 working - No mismatches
 				address_RGB <= address_RGB + 18'd1;
 
 				//compute V' for odd RGB value	
@@ -435,33 +439,23 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//index 4 == V(j+3/2)
 				//index 5 == V(j+5/2)
 				//need to create a buffer register and shift only 1 out of 2 of the SRAM values into this register per cycle
-				
-				if (counter <= 9'd310) begin
-				
-					if(read_cycle_en) begin
-						reg_v[0] <= reg_v[1];
-						reg_v[1] <= reg_v[2];
-						reg_v[2] <= reg_v[3];
-						reg_v[3] <= reg_v[4];
-						reg_v[4] <= reg_v[5];
-						reg_v[5] <= SRAM_read_data[7:0];
+				if(read_cycle_en) begin
+					reg_v[0] <= reg_v[1];
+					reg_v[1] <= reg_v[2];
+					reg_v[2] <= reg_v[3];
+					reg_v[3] <= reg_v[4];
+					reg_v[4] <= reg_v[5];
+					reg_v[5] <= SRAM_read_data[7:0];
 
-					end else begin
-						reg_v[0] <= reg_v[1];
-						reg_v[1] <= reg_v[2];
-						reg_v[2] <= reg_v[3];
-						reg_v[3] <= reg_v[4];
-						reg_v[4] <= reg_v[5];
-						reg_v[5] <= SRAM_read_data[15:8];
-					end
-					
 				end else begin
 					reg_v[0] <= reg_v[1];
 					reg_v[1] <= reg_v[2];
 					reg_v[2] <= reg_v[3];
 					reg_v[3] <= reg_v[4];
 					reg_v[4] <= reg_v[5];
+					reg_v[5] <= SRAM_read_data[15:8];
 				end
+				
 
 				//initiate read for new Y values
 				address <= address_y;
@@ -485,33 +479,21 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				mult2_op1 <= signed_104595;
 				mult2_op2 <= (value_v_prime - signed_128);
 				
-				if (counter <= 9'd310) begin
-				
-					if(read_cycle_en) begin
-						reg_u[0] <= reg_u[1];
-						reg_u[1] <= reg_u[2];
-						reg_u[2] <= reg_u[3];
-						reg_u[3] <= reg_u[4];
-						reg_u[4] <= reg_u[5];
-						reg_u[5] <= SRAM_read_data[7:0];
-
-					end else begin
-						reg_u[0] <= reg_u[1];
-						reg_u[1] <= reg_u[2];
-						reg_u[2] <= reg_u[3];
-						reg_u[3] <= reg_u[4];
-						reg_u[4] <= reg_u[5];
-						reg_u[5] <= SRAM_read_data[15:8];
-					end
-					
-				end else begin
-				
+				if(read_cycle_en) begin
 					reg_u[0] <= reg_u[1];
 					reg_u[1] <= reg_u[2];
 					reg_u[2] <= reg_u[3];
 					reg_u[3] <= reg_u[4];
 					reg_u[4] <= reg_u[5];
-					
+					reg_u[5] <= SRAM_read_data[7:0];
+
+				end else begin
+					reg_u[0] <= reg_u[1];
+					reg_u[1] <= reg_u[2];
+					reg_u[2] <= reg_u[3];
+					reg_u[3] <= reg_u[4];
+					reg_u[4] <= reg_u[5];
+					reg_u[5] <= SRAM_read_data[15:8];
 				end
 				milestone1 <= common_case_5;
 
@@ -540,6 +522,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//write B and R values to SRAM
 				write_en_n <= 1'b0;
 				address <= address_RGB;
+<<<<<<< HEAD
 
 				//if ANY value needs to be clipped, enter this conditional statement
 				if ((value_B < 8'd0) || (clipped_value_R < 8'd0) || ((value_B > 8'd255) || (clipped_value_R > 8'd255))) begin
@@ -579,6 +562,9 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 				//write_data <= {{value_B}[7:0], {((mult1_out + mult2_out) >>> 16)}[7:0]};
 
+=======
+				write_data <= {value_B, {((mult1_out + mult2_out) >>> 16)}[7:0]};
+>>>>>>> parent of 4d7210a... M1 working - No mismatches
 				address_RGB <= address_RGB + 18'd1;
 
 				//incriment counter everytime we write a B value, so we know when to exit the common_case loop
@@ -602,6 +588,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//write G and B values to SRAM
 				write_en_n <= 1'b0;
 				address <= address_RGB;
+<<<<<<< HEAD
 
 				//if ANY value needs to be clipped, enter this conditional statement
 				if ((clipped_value_G > 8'd255) || (clipped_value_G < 8'd0) || (clipped_value_B > 8'd255) || (clipped_value_B < 8'd0)) begin
@@ -641,6 +628,9 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 				//write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
 
+=======
+				write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
+>>>>>>> parent of 4d7210a... M1 working - No mismatches
 				address_RGB <= address_RGB + 18'd1;
 				counter <= counter + 9'd1;
 
@@ -720,6 +710,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//write R and G values to SRAM
 				write_en_n <= 1'b0;
 				address <= address_RGB;
+<<<<<<< HEAD
 
 				//if ANY value needs to be clipped, enter this conditional statement
 				if ((clipped_value_R < 8'd0) || (clipped_value_G < 8'd0) || ((clipped_value_R > 8'd255) || (clipped_value_G > 8'd255))) begin
@@ -759,6 +750,9 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 				//write_data <= {{value_R}[7:0], {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
 
+=======
+				write_data <= {value_R, {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
+>>>>>>> parent of 4d7210a... M1 working - No mismatches
 				address_RGB <= address_RGB + 18'd1;
 
 				//compute V' for odd RGB value	
@@ -863,6 +857,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//write B and R values to SRAM
 				write_en_n <= 1'b0;
 				address <= address_RGB;
+<<<<<<< HEAD
 
 				//if ANY value needs to be clipped, enter this conditional statement
 				if ((value_B < 8'd0) || (clipped_value_R < 8'd0) || ((value_B > 8'd255) || (clipped_value_R > 8'd255))) begin
@@ -902,6 +897,9 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 				//write_data <= {{value_B}[7:0], {((mult1_out + mult2_out) >>> 16)}[7:0]};
 
+=======
+				write_data <= {value_B, {((mult1_out + mult2_out) >>> 16)}[7:0]};
+>>>>>>> parent of 4d7210a... M1 working - No mismatches
 				address_RGB <= address_RGB + 18'd1;
 				
 				counter <= counter + 9'd1;
@@ -923,6 +921,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//write G and B values to SRAM
 				write_en_n <= 1'b0;
 				address <= address_RGB;
+<<<<<<< HEAD
 
 				//if ANY value needs to be clipped, enter this conditional statement
 				if ((clipped_value_G > 8'd255) || (clipped_value_G < 8'd0) || (clipped_value_B > 8'd255) || (clipped_value_B < 8'd0)) begin
@@ -960,8 +959,12 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
           			end
 				end
 
+=======
+				write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
+>>>>>>> parent of 4d7210a... M1 working - No mismatches
 				address_RGB <= address_RGB + 18'd1;
 				
+					
 				address_v <= address_v + 18'd1;
 				address_u <= address_u + 18'd1;
 				
@@ -980,9 +983,13 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				  milestone1 <= lead_in_0;
 
 				end else begin
+<<<<<<< HEAD
 				
 					write_en_n <= 1'b1;
 			  	 milestone1_finish <= 1'b1;
+=======
+			    milestone1 <= milestone1_done;
+>>>>>>> parent of 4d7210a... M1 working - No mismatches
 				 
 				end
 			end
