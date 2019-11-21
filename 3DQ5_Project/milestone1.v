@@ -354,6 +354,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				write_en_n <= 1'b0;
 				address <= address_RGB;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 				//if ANY value needs to be clipped, enter this conditional statement
 				if ((clipped_value_R < 8'd0) || (clipped_value_G < 8'd0) || ((clipped_value_R > 8'd255) || (clipped_value_G > 8'd255))) begin
@@ -393,6 +394,9 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 				//write_data <= {{value_R}[7:0], {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
 
+=======
+				write_data <= {value_R, {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
+>>>>>>> parent of 4d7210a... M1 working - No mismatches
 =======
 				write_data <= {value_R, {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
 >>>>>>> parent of 4d7210a... M1 working - No mismatches
@@ -545,6 +549,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				write_en_n <= 1'b0;
 				address <= address_RGB;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 				//if ANY value needs to be clipped, enter this conditional statement
 				if ((value_B < 8'd0) || (clipped_value_R < 8'd0) || ((value_B > 8'd255) || (clipped_value_R > 8'd255))) begin
@@ -587,6 +592,9 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 =======
 				write_data <= {value_B, {((mult1_out + mult2_out) >>> 16)}[7:0]};
 >>>>>>> parent of 4d7210a... M1 working - No mismatches
+=======
+				write_data <= {value_B, {((mult1_out + mult2_out) >>> 16)}[7:0]};
+>>>>>>> parent of 4d7210a... M1 working - No mismatches
 				address_RGB <= address_RGB + 18'd1;
 
 				//incriment counter everytime we write a B value, so we know when to exit the common_case loop
@@ -610,6 +618,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//write G and B values to SRAM
 				write_en_n <= 1'b0;
 				address <= address_RGB;
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 				//if ANY value needs to be clipped, enter this conditional statement
@@ -650,6 +659,9 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 				//write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
 
+=======
+				write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
+>>>>>>> parent of 4d7210a... M1 working - No mismatches
 =======
 				write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
 >>>>>>> parent of 4d7210a... M1 working - No mismatches
@@ -733,6 +745,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				write_en_n <= 1'b0;
 				address <= address_RGB;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 				//if ANY value needs to be clipped, enter this conditional statement
 				if ((clipped_value_R < 8'd0) || (clipped_value_G < 8'd0) || ((clipped_value_R > 8'd255) || (clipped_value_G > 8'd255))) begin
@@ -772,6 +785,9 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 				//write_data <= {{value_R}[7:0], {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
 
+=======
+				write_data <= {value_R, {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
+>>>>>>> parent of 4d7210a... M1 working - No mismatches
 =======
 				write_data <= {value_R, {((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0]};
 >>>>>>> parent of 4d7210a... M1 working - No mismatches
@@ -880,6 +896,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				write_en_n <= 1'b0;
 				address <= address_RGB;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 				//if ANY value needs to be clipped, enter this conditional statement
 				if ((value_B < 8'd0) || (clipped_value_R < 8'd0) || ((value_B > 8'd255) || (clipped_value_R > 8'd255))) begin
@@ -922,6 +939,9 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 =======
 				write_data <= {value_B, {((mult1_out + mult2_out) >>> 16)}[7:0]};
 >>>>>>> parent of 4d7210a... M1 working - No mismatches
+=======
+				write_data <= {value_B, {((mult1_out + mult2_out) >>> 16)}[7:0]};
+>>>>>>> parent of 4d7210a... M1 working - No mismatches
 				address_RGB <= address_RGB + 18'd1;
 				
 				counter <= counter + 9'd1;
@@ -943,6 +963,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				//write G and B values to SRAM
 				write_en_n <= 1'b0;
 				address <= address_RGB;
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 				//if ANY value needs to be clipped, enter this conditional statement
@@ -984,6 +1005,9 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 =======
 				write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
 >>>>>>> parent of 4d7210a... M1 working - No mismatches
+=======
+				write_data <= {{((matrix_value_y + mult1_out + mult2_out) >>> 16)}[7:0], {((matrix_value_y + mult3_out) >>> 16)}[7:0]};
+>>>>>>> parent of 4d7210a... M1 working - No mismatches
 				address_RGB <= address_RGB + 18'd1;
 				
 					
@@ -1006,10 +1030,14 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 				end else begin
 <<<<<<< HEAD
+<<<<<<< HEAD
 				
 					write_en_n <= 1'b1;
 			  	 milestone1_finish <= 1'b1;
 			  	 milestone1 <= idle;
+=======
+			    milestone1 <= milestone1_done;
+>>>>>>> parent of 4d7210a... M1 working - No mismatches
 =======
 			    milestone1 <= milestone1_done;
 >>>>>>> parent of 4d7210a... M1 working - No mismatches
