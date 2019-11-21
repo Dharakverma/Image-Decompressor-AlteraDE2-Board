@@ -37,6 +37,16 @@ add wave -dec uut/m1_unit/address_u
 add wave -dec uut/m1_unit/address_v
 add wave -unsigned uut/m1_unit/counter
 add wave -unsigned uut/m1_unit/counter_vert
+add wave -divider {Clipped Signals}
+add wave -unsigned uut/m1_unit/clip_R
+add wave -unsigned uut/m1_unit/clip_G
+add wave -unsigned uut/m1_unit/clip_B
+add wave -unsigned uut/m1_unit/clip_R_p
+add wave -unsigned uut/m1_unit/clip_G_p
+add wave -unsigned uut/m1_unit/clip_B_p
+add wave -unsigned uut/m1_unit/temp_R
+add wave -unsigned uut/m1_unit/temp_G
+add wave -unsigned uut/m1_unit/temp_B
 
 
 

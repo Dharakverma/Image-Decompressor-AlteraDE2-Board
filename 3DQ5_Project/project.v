@@ -6,17 +6,6 @@ McMaster University
 Ontario, Canada
 */
 
-
-
-/* notes
-
-add a finish state for this TOP FSM to let it know that milestone 1 is complete
-
-*/
-
-
-
-
 `timescale 1ns/100ps
 
 `ifndef DISABLE_DEFAULT_NET

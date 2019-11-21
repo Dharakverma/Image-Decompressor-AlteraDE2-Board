@@ -70,6 +70,7 @@ typedef enum logic [4:0] {
 	lead_out_4,
 	lead_out_5,
 	lead_out_6,
+	final_state,
 	milestone1_done
 } milestone_state_type;
 
