@@ -241,6 +241,7 @@ always @(posedge CLOCK_50_I or negedge resetn) begin
 				 				
 				m1_start_bit <= 1'b1;
 				top_state <= S_top_m1;
+				VGA_enable <= 1'b0;
 			end
 		end
 

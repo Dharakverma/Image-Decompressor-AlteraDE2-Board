@@ -200,6 +200,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 		counter <= 9'd0;
 		counter_vert <= 8'd0;
+		milestone1_finish <= 1'd0;
 		milestone1 <= idle;
 		
 	end else begin
