@@ -159,6 +159,23 @@ milestone1 m1_unit(
 	.milestone1_finish(m1_finish)
 );
 
+logic [15:0] m2_write_data;
+logic [17:0] m2_address;
+logic m2_start;
+logic m2_write_en_n;
+logic m2_finish;
+
+milestone2 m2_unit(
+	.CLOCK_50_I(CLOCK_50_I),
+	.Resetn(resetn), 
+	.m2_start(m2_start), //for leaving idle state
+	.SRAM_read_data(SRAM_read_data),
+	.SRAM_write_data(m2_write_data),
+	.SRAM_address(m2_address),
+	.write_en_n(m2_write_en_n),
+	.m2_finish(m2_finish)
+);
+
 // SRAM unit
 SRAM_Controller SRAM_unit (
 	.Clock_50(CLOCK_50_I),
@@ -256,6 +273,18 @@ always @(posedge CLOCK_50_I or negedge resetn) begin
 			
 		end
 		
+//never goes here, will instantiate later		
+		S_top_m2: begin
+		
+			m2_start <= 1'b0;
+			
+			if (m2_finish) begin
+				VGA_enable <= 1'b1;
+				top_state <= S_IDLE;
+			end
+			
+		end
+///////////////////////	
 		default: top_state <= S_IDLE;
 		endcase
 	end
@@ -266,13 +295,13 @@ assign VGA_base_address = 18'd146944;
 // Give access to SRAM for UART and VGA at appropriate time
 assign SRAM_address = ((top_state == S_ENABLE_UART_RX) | (top_state == S_WAIT_UART_RX)) 
 						? UART_SRAM_address : (top_state == S_top_m1)  ? m1_address
-						: VGA_SRAM_address;
+						: ((top_state == S_top_m2)  ? m2_address : VGA_SRAM_address);
 
-assign SRAM_write_data = (top_state == S_top_m1)  ? m1_write_data : UART_SRAM_write_data;
+assign SRAM_write_data = (top_state == S_top_m1) ? m1_write_data : ((top_state == S_top_m2) ? m2_write_data : UART_SRAM_write_data);
 
 assign SRAM_we_n = ((top_state == S_ENABLE_UART_RX) | (top_state == S_WAIT_UART_RX)) 
 						? UART_SRAM_we_n  : (top_state == S_top_m1)  ? m1_write_en_n
-						: 1'b1;
+						: (top_state == S_top_m2 ? m2_write_en_n : 1'b1);
 
 // 7 segment displays
 convert_hex_to_seven_segment unit7 (
