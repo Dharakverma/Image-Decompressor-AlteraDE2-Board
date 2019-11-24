@@ -55,7 +55,7 @@ parameter pre_IDCT_offset = 18'd76800,
 		  
 ;
 
-//for dp rams, gotta check previos lab to set these up
+//for dp rams, gotta check previous lab to set these up!!!! i will do it
 logic [17:0] address0;
 logic [31:0] data_in0;
 logic write_en0;
@@ -67,18 +67,22 @@ logic write_en1;
 logic [31:0] data_out1;
 
 logic [7:0] S; //output is 8 bit unsigned
+logic [2:0] C_row;
+logic 
 
 always @(posedge CLOCK_50_I or negedge Resetn) begin
 	if (~Resetn) begin
-	
+
 	end else begin
-	
+
 		case(m2_state)
 			
 		idle: begin
 			
 		end
 		
+
+
 	end
 
 end
