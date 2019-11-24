@@ -66,9 +66,11 @@ logic [31:0] data_in1;
 logic write_en1;
 logic [31:0] data_out1;
 
-logic [7:0] S; //output is 8 bit unsigned
-logic [2:0] C_row;
-logic 
+logic [7:0] S; // output is 8 bit unsigned
+logic [5:0] block_col; //to 40
+logic [4:0] block_row; //to 30
+logic [8:0] pixel_col;
+logic [7:0] pixel_row;
 
 always @(posedge CLOCK_50_I or negedge Resetn) begin
 	if (~Resetn) begin
@@ -79,6 +81,15 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			
 		idle: begin
 			
+		end
+
+		fill_lead_in0: begin
+			pixel_col <= block_col * 5'd8;
+			pixel_row <= block_row * 4'd8;
+
+			SRAM_address <= pre_IDCT_offset + 
+
+
 		end
 		
 
