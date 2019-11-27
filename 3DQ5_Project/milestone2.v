@@ -143,6 +143,9 @@ logic [4:0] pixel_num_counter_u_v;
 logic [2:0] increase_Saddress;
 logic signed [15:0] T_even;
 logic signed [15:0] T_odd;
+logic signed [15:0] S_even;
+logic signed [15:0] S_odd;
+
 
 always @(posedge CLOCK_50_I or negedge Resetn) begin
 	if (~Resetn) begin
@@ -174,6 +177,11 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 		read_y <= 1'd1;
 		read_u <= 1'd0;
 		read_v <= 1'd0;
+
+		S_even <= 16'd0;
+		S_odd <= 16'd0;
+		T_even <= 16'd0;
+		T_odd <= 16'd0;
 
 		//initialize the rest of the signals as we add them to the program
 
@@ -843,7 +851,202 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 		end
 		
+		//read first location
+		S_calc_lead_in0: begin
+			
+			//for DP-RAM1
+			address2 <= 18'd0;
+			write_en2 <= 1'd0;
+			address3 <= 18'd0;
+			write_en3 <= 1'd0;
 
+			m2_state <= S_calc_lead_in1;
+
+		end	
+
+		//read (T2, S'3) and calculate (T0,T1) @@@@@@@@@@@@ is this state correct on the state table? we arent calculating anything here 
+		S_calc_lead_in1: begin
+			
+			//for DP-RAM1
+			address2 <= address2 + 18'd1;
+			address3 <= address3 + 18'd1;
+
+			m2_state <= S_calc_lead_in2;
+
+		end	
+
+		S_calc_lead_in2: begin
+			
+			//for DP-RAM1
+			address2 <= address2 + 18'd1;
+			address3 <= address3 + 18'd1;
+
+			//begin calculation for S
+			m1_op1 <= data_out2[15:8];
+			m1_op2 <= data_out3[15:8];
+
+			m2_op1 <= data_out2[7:0];
+			m2_op1 <= data_out3[7:0];
+
+			m2_state <= S_calc_lead_in3;
+
+		end	
+
+		S_calc_lead_in3: begin
+			
+			//for DP-RAM1
+			address2 <= address2 + 18'd1;
+			address3 <= address3 + 18'd1;
+
+			S_even <= ;
+
+			//begin calculation for S
+			m1_op1 <= data_out2[15:8];
+			m1_op2 <= data_out3[15:8];
+
+			m2_op1 <= data_out2[7:0];
+			m2_op1 <= data_out3[7:0];
+
+			m2_state <= S_calc_lead_in4;
+
+		end	
+
+		S_calc_lead_in4: begin
+			
+			//for DP-RAM1
+			address2 <= address2 - 18'd3;
+			address3 <= address3 + 18'd1;
+
+			S_even <= ;
+
+			//begin calculation for S
+			m1_op1 <= data_out2[15:8];
+			m1_op2 <= data_out3[15:8];
+
+			m2_op1 <= data_out2[7:0];
+			m2_op1 <= data_out3[7:0];
+
+			m2_state <= S_calc_lead_in5;
+
+		end	
+
+		S_calc_lead_in5: begin
+			
+			//for DP-RAM1
+			address2 <= address2 + 18'd1;
+			address3 <= address3 + 18'd1;
+
+			S_even <= ;
+			
+			//begin calculation for S
+			m1_op1 <= data_out2[15:8];
+			m1_op2 <= data_out3[15:8];
+
+			m2_op1 <= data_out2[7:0];
+			m2_op1 <= data_out3[7:0];
+
+			m2_state <= S_calc_lead_in6;
+
+		end	
+
+		S_calc_lead_in6: begin
+			
+			//for DP-RAM1
+			address2 <= address2 + 18'd1;
+			address3 <= address3 + 18'd1;
+
+			S_even <= ;
+			
+			//begin calculation for S
+			m1_op1 <= data_out2[15:8];
+			m1_op2 <= data_out3[15:8];
+
+			m2_op1 <= data_out2[7:0];
+			m2_op1 <= data_out3[7:0];
+
+			m2_state <= S_calc_lead_in7;
+
+		end	
+
+		S_calc_lead_in7: begin
+			
+			//for DP-RAM1
+			address2 <= address2 + 18'd1;
+			address3 <= address3 + 18'd1;
+
+			S_odd <= ;
+			
+			//begin calculation for S
+			m1_op1 <= data_out2[15:8];
+			m1_op2 <= data_out3[15:8];
+
+			m2_op1 <= data_out2[7:0];
+			m2_op1 <= data_out3[7:0];
+
+			m2_state <= S_calc_lead_in8;
+
+		end	
+
+		S_calc_lead_in8: begin
+			
+			//for DP-RAM1
+			address2 <= address2 - 18'd3;
+			address3 <= address3 + 18'd1;
+
+			S_odd <= ;
+			
+			//begin calculation for S
+			m1_op1 <= data_out2[15:8];
+			m1_op2 <= data_out3[15:8];
+
+			m2_op1 <= data_out2[7:0];
+			m2_op1 <= data_out3[7:0];
+
+			m2_state <= S_calc_lead_in9;
+
+		end	
+
+		S_calc_lead_in9: begin
+			
+			//for DP-RAM1
+			address2 <= address2 + 18'd1;
+			address3 <= address3 + 18'd1;
+
+			S_odd <= ;
+			
+			//begin calculation for S
+			m1_op1 <= data_out2[15:8];
+			m1_op2 <= data_out3[15:8];
+
+			m2_op1 <= data_out2[7:0];
+			m2_op1 <= data_out3[7:0];
+
+			m2_state <= S_calc_lead_in10;
+
+		end	
+
+
+		S_calc_lead_in10: begin
+			
+			//for DP-RAM1
+			address2 <= address2 + 18'd1;
+			address3 <= address3 + 18'd1;
+			
+			//begin calculation for S
+			m1_op1 <= data_out2[15:8];
+			m1_op2 <= data_out3[15:8];
+
+			m2_op1 <= data_out2[7:0];
+			m2_op1 <= data_out3[7:0];
+
+			//write the even and odd S values to SRAM
+			SRAM_address <= 18'd0;
+			SRAM_we_n <= 1'd0;
+			SRAM_write_data <= {(S_even >>> 16), (S_odd_caluclation_goes_here) >>> 16)};
+
+			m2_state <= S_calc_CC0;
+
+		end	
 
 	end
 
