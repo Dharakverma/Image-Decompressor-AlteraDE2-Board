@@ -228,14 +228,14 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			m2_state <= fill_lead_in2;
 		end
 
-		//read S'1 and C
+		//read S'1
 		fill_lead_in2: begin
 			SRAM_address <= SRAM_address + 18'd1;
 			pixel_number_counter <= pixel_number_counter + 6'd1;
 			m2_state <= fill_lead_in3;
 		end
 		
-		//read S'2 and C
+		//read S'2
 		fill_lead_in3: begin
 			SRAM_address <= SRAM_address + 18'd1;
 			pixel_number_counter <= pixel_number_counter + 6'd1;
@@ -417,10 +417,14 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			increase_Saddress <= 8'd0;
 
 			//for DP-RAM0 
-			address0 <= 18'd0;
+			address0 <= 18'd31;
 			write_en0 <= 1'd0;
 
+<<<<<<< HEAD
 			address1 <= 18'd32;
+=======
+			address1 <= 18'd31;
+>>>>>>> b8e126f712f11809f2493ff815e0c76682048652
 			write_en1 <= 1'd0;
 
 			m2_state <= t_calc_lead_in1;
