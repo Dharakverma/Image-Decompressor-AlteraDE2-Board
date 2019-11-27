@@ -49,6 +49,22 @@ Multiplier mult2(
 	.out(m2_out)
 );
 
+/* 
+// RAM for storing Char ROM code
+dual_port_RAM dual_port_RAM_inst (
+	.address_a ( write_address ),
+	.address_b ( read_address ),
+	.clock ( CLOCK_50_I ),
+	.data_a ( write_data ),
+	.data_b ( 6'h00 ),
+	.wren_a ( write_enable ),
+	.wren_b ( 1'b0 ),
+	.q_a (),
+	.q_b ( character_address )
+	);
+	
+*/
+
 logic [17:0] address0;
 logic [31:0] data_in0;
 logic write_en0;
@@ -70,7 +86,7 @@ logic write_en3;
 logic [31:0] data_out3;
 
 //instintiate DP-RAM1 
-dual_port_RAM0 dual_port_RAM_inst0 (
+dual_port_RAM dual_port_RAM_inst0 (
 	.address_a (address0),
 	.address_b (address1),
 	.clock (CLOCK_50_I),
@@ -80,10 +96,10 @@ dual_port_RAM0 dual_port_RAM_inst0 (
 	.wren_b (write_en1),
 	.q_a (data_out0),
 	.q_b (data_out1)
-);
+	);
 
 //instintiate DP-RAM2 
-dual_port_RAM1 dual_port_RAM_inst1 (
+dual_port_RAM dual_port_RAM_inst1 (
 	.address_a (address2),
 	.address_b (address3),
 	.clock (CLOCK_50_I),
@@ -93,7 +109,7 @@ dual_port_RAM1 dual_port_RAM_inst1 (
 	.wren_b (write_en3),
 	.q_a (data_out2),
 	.q_b (data_out3)
-);
+	);
 
 
 logic [7:0] S; // output is 8 bit unsigned
@@ -126,6 +142,8 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 		row_counter <= 3'd0;
 		column_counter <= 3'd0;
 		SRAM_address <= 18'd0;
+		m2_finish <= 1'd0;
+		m2_start <= 1'd0;
 
 		Sprime_row[0] <= 16'd0;
 		Sprime_row[1] <= 16'd0;
@@ -582,7 +600,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			//for DP-RAM1
 			address2 <= 18'd0;
 			write_en2 <= 1'd1;
-			data_in2 <= {(T_even >>> 8), ((T_odd + m1_out + m2_out) >>> 8)}; //finish calculating T1 and write (T0,T1) to DP-RAM1
+			data_in2 <= {(T_even >>> 8), (T_odd + m1_out + m2_out) >>> 8)}; //finish calculating T1 and write (T0,T1) to DP-RAM1
 
 			//begin calculation for S0*C2
 			m1_op1 <= data_out0[31:16];
@@ -1192,7 +1210,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 						block_row <= block_row + 5'd1;
 					end
 					
-					if (block_row > 5'd29) begin
+					if (block_row > 5'29) begin
 						block_row <= 5'd0;
 						read_u <= 1'd1;
 						read_y <= 1'd0;
@@ -1205,7 +1223,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 						block_row <= block_row + 5'd1;
 					end
 					
-					if (block_row > 5'd29) begin
+					if (block_row > 5'29) begin
 						block_row <= 5'd0;
 						read_u <= 1'd0;
 						read_y <= 1'd0;
@@ -1218,7 +1236,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 						block_row <= block_row + 5'd1;
 					end
 					
-					if (block_row > 5'd29) begin
+					if (block_row > 5'29) begin
 						m2_state <= m2_final_state;
 
 					end

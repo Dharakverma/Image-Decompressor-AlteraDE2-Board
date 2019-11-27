@@ -817,7 +817,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				
 				if (counter_vert < 8'd239) begin
 
-				  milestone1 <= lead_in_0;
+					milestone1 <= lead_in_0;
 
 				end else begin
 				

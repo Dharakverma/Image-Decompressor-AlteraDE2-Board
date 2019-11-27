@@ -236,8 +236,8 @@ always @(posedge CLOCK_50_I or negedge resetn) begin
 `ifdef SIMULATION
 
 			if (UART_timer == 26'd10) begin
-				m1_start_bit <= 1'b1;
-				top_state <= S_top_m1;
+				m2_start <= 1'b1;
+				top_state <= S_top_m2;
 			end
 
 `endif
@@ -256,8 +256,8 @@ always @(posedge CLOCK_50_I or negedge resetn) begin
 				// Timeout for 1 sec on UART for detecting if file transmission is finished
 				UART_rx_initialize <= 1'b1;
 				 				
-				m1_start_bit <= 1'b1;
-				top_state <= S_top_m1;
+				m2_start <= 1'b1;
+				top_state <= S_top_m2;
 				VGA_enable <= 1'b0;
 			end
 		end
@@ -280,7 +280,10 @@ always @(posedge CLOCK_50_I or negedge resetn) begin
 			
 			if (m2_finish) begin
 				VGA_enable <= 1'b1;
+`ifdef SIMULATION
 				top_state <= S_IDLE;
+`endif
+				top_state <= S_top_m1;
 			end
 			
 		end

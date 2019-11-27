@@ -2,14 +2,14 @@ m255
 K3
 13
 cModel Technology
-Z0 d\\Mac\Home\Documents\GitHub.nosync\3DQ5_FinalProject\3DQ5_Project
+Z0 dC:\Users\sakib\Documents\GitHub\3DQ5_FinalProject\3DQ5_Project
 vClock_100_PLL
 Z1 DXx6 sv_std 3 std 0 22 F[19LRNL:5;XmIFh[XOPn1
 Z2 I67<oUb?FNU4C1@4LY^6TW1
 Z3 V7YUj[KX1eVDRk8:;<_[TU3
 S1
-Z4 d\\Mac\Home\Documents\GitHub.nosync\3DQ5_FinalProject\3DQ5_Project
-Z5 w1573750693
+Z4 dC:\Users\sakib\Documents\GitHub\3DQ5_FinalProject\3DQ5_Project
+Z5 w1574556461
 Z6 8Clock_100_PLL.v
 Z7 FClock_100_PLL.v
 L0 36
@@ -21,15 +21,7 @@ Z10 !s92 -sv -work rtl_work +define+DISABLE_DEFAULT_NET -O0
 Z11 n@clock_100_@p@l@l
 Z12 !s100 cfzDd_jkZoN2lY2;52M>^3
 Z13 !s105 Clock_100_PLL_v_unit
-<<<<<<< HEAD
-<<<<<<< HEAD
-Z14 !s108 1574286236.916000
-=======
-Z14 !s108 1574138278.897000
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
-Z14 !s108 1574138278.897000
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+Z14 !s108 1574889870.155000
 Z15 !s107 Clock_100_PLL.v|
 Z16 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|Clock_100_PLL.v|
 !i10b 1
@@ -52,15 +44,7 @@ R9
 R10
 Z21 !s100 B3Sd0AKU:Qz]Zc=;La^KN2
 Z22 !s105 convert_hex_to_seven_segment_v_unit
-<<<<<<< HEAD
-<<<<<<< HEAD
-Z23 !s108 1574286234.791000
-=======
-Z23 !s108 1574138277.757000
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
-Z23 !s108 1574138277.757000
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+Z23 !s108 1574889869.165000
 Z24 !s107 convert_hex_to_seven_segment.v|
 Z25 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|convert_hex_to_seven_segment.v|
 !i10b 1
@@ -68,72 +52,40 @@ Z25 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|conv
 !s101 -O0
 vmilestone1
 R1
-Z26 DXx4 work 17 milestone1_v_unit 0 22 4g]enQB[6RzF:YL^=fQX90
+Z26 DXx4 work 17 milestone1_v_unit 0 22 m1]9U4RKFmIh0GQU:jdOo1
 Z27 VgY4b9E`f=?K<fO?Ia2P471
 r1
 31
-<<<<<<< HEAD
-<<<<<<< HEAD
-Z28 IMom<IRLO]<YeBz;24KDg`1
+Z28 IV]:n?dd<9ShQ9Bj5cg^HV1
 Z29 !s105 milestone1_v_unit
 S1
 R4
-Z30 w1574286174
-=======
-Z28 IzTe9Ic<_K1RM0DkHg>hKP1
-Z29 !s105 milestone1_v_unit
-S1
-R4
-Z30 w1574138222
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
-Z28 IzTe9Ic<_K1RM0DkHg>hKP1
-Z29 !s105 milestone1_v_unit
-S1
-R4
-Z30 w1574138222
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+Z30 w1574888340
 Z31 8milestone1.v
 Z32 Fmilestone1.v
 L0 22
 R8
-<<<<<<< HEAD
-<<<<<<< HEAD
-Z33 !s108 1574286234.306000
-=======
-Z33 !s108 1574138277.574000
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
-Z33 !s108 1574138277.574000
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+Z33 !s108 1574889868.838000
 Z34 !s107 define_state.h|milestone1.v|
 Z35 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|milestone1.v|
 R9
 R10
-<<<<<<< HEAD
-<<<<<<< HEAD
-Z36 !s100 6KB`:CnLmgKUc=9;]6nON3
-=======
-Z36 !s100 CbhAKmhb=VI1?Ia`d3L_61
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
-Z36 !s100 CbhAKmhb=VI1?Ia`d3L_61
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+Z36 !s100 UbICz4LW;CW8FITX@g0k;2
 !s85 0
 !i10b 1
 !s101 -O0
 Xmilestone1_v_unit
 R1
-Z37 V4g]enQB[6RzF:YL^=fQX90
+Z37 Vm1]9U4RKFmIh0GQU:jdOo1
 r1
 31
-Z38 I4g]enQB[6RzF:YL^=fQX90
+Z38 Im1]9U4RKFmIh0GQU:jdOo1
 S1
 R4
-R30
+Z39 w1574888911
 R31
 R32
-Z39 Fdefine_state.h
+Z40 Fdefine_state.h
 L1 4
 R8
 R33
@@ -141,207 +93,198 @@ R34
 R35
 R9
 R10
-Z40 !s100 FJeG1QlL;bAd6a9=j=bdK3
+Z41 !s100 gSXiBG?O3hhFQK_J^db5b2
+!s85 0
+!i10b 1
+!i103 1
+!s101 -O0
+vmilestone2
+R1
+Z42 DXx4 work 17 milestone2_v_unit 0 22 a:]lRGHENJG@lFI^_@0G13
+Z43 V:d6QGfFjVUC=PAnBZk2k42
+r1
+31
+Z44 I>i7TMlTij0U^?@SB28Q=C0
+Z45 !s105 milestone2_v_unit
+S1
+R4
+Z46 w1574889857
+Z47 8milestone2.v
+Z48 Fmilestone2.v
+L0 19
+R8
+Z49 !s108 1574889869.006000
+Z50 !s107 define_state.h|milestone2.v|
+Z51 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|milestone2.v|
+R9
+R10
+Z52 !s100 MRP4KZ;;P[A>?gf7kWTj^2
+!s85 0
+!i10b 1
+!s101 -O0
+Xmilestone2_v_unit
+R1
+Z53 Va:]lRGHENJG@lFI^_@0G13
+r1
+31
+Z54 Ia:]lRGHENJG@lFI^_@0G13
+S1
+R4
+R46
+R47
+R48
+R40
+L1 4
+R8
+R49
+R50
+R51
+R9
+R10
+Z55 !s100 WM<U1SHRO:j2MKH^jLMFL0
 !s85 0
 !i10b 1
 !i103 1
 !s101 -O0
 vMultiplier
 R1
-R26
-Z41 VHFWMIF:Oc7@i75Z[W^Zi;0
+R42
+Z56 VH[:I@hzhS_AH?`VLX7bnn0
 r1
 31
-Z42 I0l`AQI2V6oS;VkN[GilS^0
-R29
+Z57 Ieaj0S@;4_gQCCB9O[ia<11
+R45
 S1
 R4
-R30
-R31
-R32
+R46
+R47
+R48
 L0 8
 R8
-R33
-R34
-R35
+R49
+R50
+R51
 R9
 R10
-Z43 n@multiplier
-Z44 !s100 7^a80Hoe]YA5geD?UlVk93
+Z58 n@multiplier
+Z59 !s100 Tm`0O:EYAF@h3M6maYL?j1
 !s85 0
 !i10b 1
 !s101 -O0
 vPB_Controller
 R1
-Z45 IkIe^33MdP]YfnbRnLFM3[1
-Z46 VbkQg5OY7K?YWT1G8j2Pbi0
+Z60 IkIe^33MdP]YfnbRnLFM3[1
+Z61 VbkQg5OY7K?YWT1G8j2Pbi0
 S1
 R4
 R5
-Z47 8PB_Controller.v
-Z48 FPB_Controller.v
+Z62 8PB_Controller.v
+Z63 FPB_Controller.v
 L0 15
 R8
 r1
 31
 R9
 R10
-Z49 n@p@b_@controller
-Z50 !s100 ib8b?ilZFU0NiHB_9GEXl0
-Z51 !s105 PB_Controller_v_unit
-<<<<<<< HEAD
-<<<<<<< HEAD
-Z52 !s108 1574286235.338000
-=======
-Z52 !s108 1574138277.954000
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
-Z52 !s108 1574138277.954000
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-Z53 !s107 PB_Controller.v|
-Z54 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|PB_Controller.v|
+Z64 n@p@b_@controller
+Z65 !s100 ib8b?ilZFU0NiHB_9GEXl0
+Z66 !s105 PB_Controller_v_unit
+Z67 !s108 1574889869.366000
+Z68 !s107 PB_Controller.v|
+Z69 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|PB_Controller.v|
 !i10b 1
 !s85 0
 !s101 -O0
 vproject
 R1
-Z55 DXx4 work 14 project_v_unit 0 22 :On[NcMTOTKmn4l;W^<H50
-Z56 V4lYJKZd_R]1NMA:6K8UIE0
+Z70 DXx4 work 14 project_v_unit 0 22 Z8ERXI7mf00WBc_jHE46W0
+Z71 V4lYJKZd_R]1NMA:6K8UIE0
 r1
 31
-Z57 IC9kCmBAoE8OKOCmzW;HAF1
+Z72 IiJHA:P>IYdV;VM5]6C@2z2
 S1
 R4
-Z58 w1574277462
-Z59 8project.v
-Z60 Fproject.v
-L0 31
+Z73 w1574889334
+Z74 8project.v
+Z75 Fproject.v
+L0 20
 R8
-<<<<<<< HEAD
-<<<<<<< HEAD
-Z61 !s108 1574286237.166000
-=======
-Z61 !s108 1574138279.000000
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
-Z61 !s108 1574138279.000000
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-Z62 !s107 define_state.h|project.v|
-Z63 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|+define+SIMULATION|project.v|
+Z76 !s108 1574889870.271000
+Z77 !s107 define_state.h|project.v|
+Z78 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|+define+SIMULATION|project.v|
 R9
-Z64 !s92 -sv -work rtl_work +define+DISABLE_DEFAULT_NET +define+SIMULATION -O0
+Z79 !s92 -sv -work rtl_work +define+DISABLE_DEFAULT_NET +define+SIMULATION -O0
 !s85 0
 !i10b 1
-Z65 !s100 fHke9XJ`^i5Tfm4[eX:h?2
-Z66 !s105 project_v_unit
+Z80 !s100 iaa0_=cnhTnDR?gF8z92H2
+Z81 !s105 project_v_unit
 !s101 -O0
 Xproject_v_unit
 R1
-Z67 V:On[NcMTOTKmn4l;W^<H50
+Z82 VZ8ERXI7mf00WBc_jHE46W0
 r1
 31
-Z68 I:On[NcMTOTKmn4l;W^<H50
+Z83 IZ8ERXI7mf00WBc_jHE46W0
 S1
 R4
-<<<<<<< HEAD
-<<<<<<< HEAD
-R58
-=======
-Z69 w1574113346
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
-Z69 w1574113346
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-R59
-R60
-R39
+R73
+R74
+R75
+R40
 L1 4
 R8
-R61
-R62
-R63
+R76
+R77
+R78
 R9
-R64
+R79
 !s85 0
 !i10b 1
-<<<<<<< HEAD
-<<<<<<< HEAD
-Z69 !s100 @L=fN>8lWRJNg:l;:]Zei2
-=======
-Z70 !s100 ZQfYGdS`@1KPfikol:J2<0
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
-Z70 !s100 ZQfYGdS`@1KPfikol:J2<0
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+Z84 !s100 X_VWAdzmU[O>ETIXOP81>3
 !i103 1
 !s101 -O0
 vSRAM_Controller
 R1
-Z70 I7L329XK2C1WBhkb_`?TDB2
-Z71 V5XU>4eb<gERPb=4VPDB<`1
+Z85 I7L329XK2C1WBhkb_`?TDB2
+Z86 V5XU>4eb<gERPb=4VPDB<`1
 S1
 R4
 R5
-Z72 8SRAM_Controller.v
-Z73 FSRAM_Controller.v
+Z87 8SRAM_Controller.v
+Z88 FSRAM_Controller.v
 L0 17
 R8
 r1
 31
 R9
-<<<<<<< HEAD
-Z74 n@s@r@a@m_@controller
-Z75 !s100 8`ZBJ@geg5SMJAR5Ig8c50
-Z76 !s105 SRAM_Controller_v_unit
-Z77 !s108 1574286235.650000
-Z78 !s107 SRAM_Controller.v|
-Z79 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|+define+SIMULATION|SRAM_Controller.v|
-=======
-Z75 n@s@r@a@m_@controller
-Z76 !s100 8`ZBJ@geg5SMJAR5Ig8c50
-Z77 !s105 SRAM_Controller_v_unit
-Z78 !s108 1574138278.120000
-Z79 !s107 SRAM_Controller.v|
-Z80 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|+define+SIMULATION|SRAM_Controller.v|
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-R64
+Z89 n@s@r@a@m_@controller
+Z90 !s100 8`ZBJ@geg5SMJAR5Ig8c50
+Z91 !s105 SRAM_Controller_v_unit
+Z92 !s108 1574889869.461000
+Z93 !s107 SRAM_Controller.v|
+Z94 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|+define+SIMULATION|SRAM_Controller.v|
+R79
 !i10b 1
 !s85 0
 !s101 -O0
 vtb_project_v2
 R1
 !i10b 1
-!s100 Jo5nEdb25GHgHXX@RR^oZ3
-IlTA8Jj]kP>Pfkb527z=n91
+!s100 lg7di0CI7QffVj1nEeL=50
+I_ILncnagzTD?kGMe^?A@O3
 Vh8e:5mP<24Tad>HDWO75I1
 !s105 tb_project_v2_v_unit
 S1
 R4
-<<<<<<< HEAD
-<<<<<<< HEAD
-w1574220640
-=======
-w1567306800
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
-w1567306800
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+w1574889330
 8tb_project_v2.v
 Ftb_project_v2.v
-L0 49
+L0 50
 R8
 r1
 !s85 0
 31
-<<<<<<< HEAD
-<<<<<<< HEAD
-!s108 1574286237.572000
-=======
-!s108 1574138279.135000
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
-!s108 1574138279.135000
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+!s108 1574889870.407000
 !s107 tb_project_v2.v|
 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|tb_project_v2.v|
 !s101 -O0
@@ -349,308 +292,199 @@ R9
 R10
 vtb_SRAM_Emulator
 R1
-Z80 I002YMFZnJd_<0V`kQJzY]3
-Z81 VNkgVPB?UIlEH1V^fa`:cl2
+Z95 I002YMFZnJd_<0V`kQJzY]3
+Z96 VNkgVPB?UIlEH1V^fa`:cl2
 S1
 R4
-Z82 w1574090885
-Z83 8tb_SRAM_Emulator.v
-Z84 Ftb_SRAM_Emulator.v
+R5
+Z97 8tb_SRAM_Emulator.v
+Z98 Ftb_SRAM_Emulator.v
 L0 16
 R8
 r1
 31
 R9
 R10
-Z85 ntb_@s@r@a@m_@emulator
-Z86 !s100 [9M>=8cY7LzdzjUJUa8Hm3
-Z87 !s105 tb_SRAM_Emulator_v_unit
-<<<<<<< HEAD
-<<<<<<< HEAD
-Z88 !s108 1574286235.838000
-=======
-Z88 !s108 1574138278.297000
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
-Z88 !s108 1574138278.297000
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-Z89 !s107 tb_SRAM_Emulator.v|
-Z90 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|tb_SRAM_Emulator.v|
+Z99 ntb_@s@r@a@m_@emulator
+Z100 !s100 [9M>=8cY7LzdzjUJUa8Hm3
+Z101 !s105 tb_SRAM_Emulator_v_unit
+Z102 !s108 1574889869.560000
+Z103 !s107 tb_SRAM_Emulator.v|
+Z104 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|tb_SRAM_Emulator.v|
 !i10b 1
 !s85 0
 !s101 -O0
 vUART_Receive_Controller
 R1
-Z91 DXx4 work 30 UART_Receive_Controller_v_unit 0 22 1NA3ZiR4P4VA>`lGPKVYI3
-Z92 VU=O:9F<OJ5[jS^z[:R=_M3
+Z105 DXx4 work 30 UART_Receive_Controller_v_unit 0 22 e:B0UWKID>E:Z`gAGFSUa3
+Z106 VU=O:9F<OJ5[jS^z[:R=_M3
 r1
 31
-Z93 I7L^g[RDUh:_oG@B4d8I2l0
+Z107 I7L^g[RDUh:_oG@B4d8I2l0
 S1
 R4
 R5
-Z94 8UART_Receive_Controller.v
-Z95 FUART_Receive_Controller.v
+Z108 8UART_Receive_Controller.v
+Z109 FUART_Receive_Controller.v
 L0 24
 R8
-<<<<<<< HEAD
-<<<<<<< HEAD
-Z96 !s108 1574286236.041000
-=======
-Z96 !s108 1574138278.444000
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
-Z96 !s108 1574138278.444000
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-Z97 !s107 define_state.h|UART_Receive_Controller.v|
-Z98 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|+define+SIMULATION|UART_Receive_Controller.v|
+Z110 !s108 1574889869.667000
+Z111 !s107 define_state.h|UART_Receive_Controller.v|
+Z112 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|+define+SIMULATION|UART_Receive_Controller.v|
 R9
-R64
-Z99 n@u@a@r@t_@receive_@controller
-Z100 !s100 b@@1J:HbM_k71;AU]2ll>2
-Z101 !s105 UART_Receive_Controller_v_unit
+R79
+Z113 n@u@a@r@t_@receive_@controller
+Z114 !s100 b@@1J:HbM_k71;AU]2ll>2
+Z115 !s105 UART_Receive_Controller_v_unit
 !s85 0
 !i10b 1
 !s101 -O0
 XUART_Receive_Controller_v_unit
 R1
-Z102 V1NA3ZiR4P4VA>`lGPKVYI3
+Z116 Ve:B0UWKID>E:Z`gAGFSUa3
 r1
 31
-Z103 I1NA3ZiR4P4VA>`lGPKVYI3
+Z117 Ie:B0UWKID>E:Z`gAGFSUa3
 S1
 R4
-Z104 w1574276998
-R94
-R95
 R39
+R108
+R109
+R40
 L1 4
 R8
-R96
-R97
-R98
+R110
+R111
+R112
 R9
-R64
-<<<<<<< HEAD
-Z105 n@u@a@r@t_@receive_@controller_v_unit
-Z106 !s100 WX1F0BW:C<jGk[9d5PD=23
-=======
-Z104 n@u@a@r@t_@receive_@controller_v_unit
-Z105 !s100 PbhN>c37QXSDUPWRB8:mF2
-<<<<<<< HEAD
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+R79
+Z118 n@u@a@r@t_@receive_@controller_v_unit
+Z119 !s100 R^F;I?aW^GEIkz?`9NR:;0
 !s85 0
 !i10b 1
 !i103 1
 !s101 -O0
 vUART_SRAM_interface
 R1
-<<<<<<< HEAD
-<<<<<<< HEAD
-Z107 DXx4 work 26 UART_SRAM_interface_v_unit 0 22 >o:l6dkFb?g<LfbHBMbeB1
-Z108 VY5lf>5718Hd@;7Ha77aTF0
-=======
-=======
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-Z106 DXx4 work 26 UART_SRAM_interface_v_unit 0 22 Nlga<M6SF@3393_ednNJ50
-Z107 VY5lf>5718Hd@;7Ha77aTF0
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+Z120 DXx4 work 26 UART_SRAM_interface_v_unit 0 22 F3TgEI3jO9FHGECPVNXlh2
+Z121 VY5lf>5718Hd@;7Ha77aTF0
 r1
 31
-Z109 I]_Bd[aG6XX3ZfVjQ>oK><0
+Z122 IIFQh;zM_9QOTY8?3;J]^Y3
 S1
 R4
-R5
-Z110 8UART_SRAM_interface.v
-Z111 FUART_SRAM_interface.v
+Z123 w1574556472
+Z124 8UART_SRAM_interface.v
+Z125 FUART_SRAM_interface.v
 L0 17
 R8
-<<<<<<< HEAD
-<<<<<<< HEAD
-Z112 !s108 1574286236.635000
-Z113 !s107 define_state.h|UART_SRAM_interface.v|
-Z114 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|UART_SRAM_interface.v|
-=======
-=======
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-Z111 !s108 1574138278.755000
-Z112 !s107 define_state.h|UART_SRAM_interface.v|
-Z113 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|UART_SRAM_interface.v|
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+Z126 !s108 1574889870.024000
+Z127 !s107 define_state.h|UART_SRAM_interface.v|
+Z128 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|UART_SRAM_interface.v|
 R9
 R10
-Z115 n@u@a@r@t_@s@r@a@m_interface
-Z116 !s100 ffBX>n`<9VdFnURL:HCli3
-Z117 !s105 UART_SRAM_interface_v_unit
+Z129 n@u@a@r@t_@s@r@a@m_interface
+Z130 !s100 MnlO32Wb;Sl=`Te8?]0@U0
+Z131 !s105 UART_SRAM_interface_v_unit
 !s85 0
 !i10b 1
 !s101 -O0
 XUART_SRAM_interface_v_unit
 R1
-<<<<<<< HEAD
-<<<<<<< HEAD
-Z118 V>o:l6dkFb?g<LfbHBMbeB1
+Z132 VF3TgEI3jO9FHGECPVNXlh2
 r1
 31
-Z119 I>o:l6dkFb?g<LfbHBMbeB1
-=======
-=======
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-Z117 VNlga<M6SF@3393_ednNJ50
-r1
-31
-Z118 INlga<M6SF@3393_ednNJ50
-<<<<<<< HEAD
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+Z133 IF3TgEI3jO9FHGECPVNXlh2
 S1
 R4
-R104
-R110
-R111
 R39
+R124
+R125
+R40
 L1 4
 R8
-R112
-R113
-R114
+R126
+R127
+R128
 R9
 R10
-<<<<<<< HEAD
-Z120 n@u@a@r@t_@s@r@a@m_interface_v_unit
-Z121 !s100 <5MYPEFa<c6MY:@7J=ag_1
-=======
-Z119 n@u@a@r@t_@s@r@a@m_interface_v_unit
-Z120 !s100 ?f[M_6l6IA;MVoHM;P6J`3
-<<<<<<< HEAD
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+Z134 n@u@a@r@t_@s@r@a@m_interface_v_unit
+Z135 !s100 zFjcA:H;g3W47AOz;W8aS1
 !s85 0
 !i10b 1
 !i103 1
 !s101 -O0
 vVGA_Controller
 R1
-Z122 Il^h_6;J8Bh>n_<YfA02;?0
-Z123 V;HD9mML4T9E_1=05H1:nz0
+Z136 Il^h_6;J8Bh>n_<YfA02;?0
+Z137 V;HD9mML4T9E_1=05H1:nz0
 S1
 R4
 R5
-Z124 8VGA_Controller.v
-Z125 FVGA_Controller.v
-Z126 FVGA_Param.h
+Z138 8VGA_Controller.v
+Z139 FVGA_Controller.v
+Z140 FVGA_Param.h
 L0 16
 R8
 r1
 31
 R9
 R10
-<<<<<<< HEAD
-Z127 n@v@g@a_@controller
-Z128 !s100 LhVazT3F68@[GJSSnA3Y:2
-Z129 !s105 VGA_Controller_v_unit
-Z130 !s108 1574286235.056000
-Z131 !s107 VGA_Param.h|VGA_Controller.v|
-Z132 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|VGA_Controller.v|
-=======
-Z126 n@v@g@a_@controller
-Z127 !s100 LhVazT3F68@[GJSSnA3Y:2
-Z128 !s105 VGA_Controller_v_unit
-Z129 !s108 1574138277.856000
-Z130 !s107 VGA_Param.h|VGA_Controller.v|
-Z131 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|VGA_Controller.v|
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+Z141 n@v@g@a_@controller
+Z142 !s100 LhVazT3F68@[GJSSnA3Y:2
+Z143 !s105 VGA_Controller_v_unit
+Z144 !s108 1574889869.266000
+Z145 !s107 VGA_Param.h|VGA_Controller.v|
+Z146 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|VGA_Controller.v|
 !i10b 1
 !s85 0
 !s101 -O0
 vVGA_SRAM_interface
 R1
-<<<<<<< HEAD
-<<<<<<< HEAD
-Z133 DXx4 work 25 VGA_SRAM_interface_v_unit 0 22 =D45@3;@eP:;8@MVN=JKg2
-Z134 VRdmch[R10]Eoc>S3G1TQY0
-=======
-=======
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-Z132 DXx4 work 25 VGA_SRAM_interface_v_unit 0 22 o`z2b:zbRDF^GKNfbKET@0
-Z133 VRdmch[R10]Eoc>S3G1TQY0
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+Z147 DXx4 work 25 VGA_SRAM_interface_v_unit 0 22 :bKCo1lZOIio[3`A3Xfl_2
+Z148 VRdmch[R10]Eoc>S3G1TQY0
 r1
 31
-Z135 I:?n9LjMA0DebOd8MiM?>;3
+Z149 I:?n9LjMA0DebOd8MiM?>;3
 S1
 R4
 R5
-Z136 8VGA_SRAM_interface.v
-Z137 FVGA_SRAM_interface.v
+Z150 8VGA_SRAM_interface.v
+Z151 FVGA_SRAM_interface.v
 L0 17
 R8
-<<<<<<< HEAD
-<<<<<<< HEAD
-Z138 !s108 1574286236.353000
-Z139 !s107 define_state.h|VGA_SRAM_interface.v|
-Z140 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|VGA_SRAM_interface.v|
-=======
-=======
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-Z137 !s108 1574138278.608000
-Z138 !s107 define_state.h|VGA_SRAM_interface.v|
-Z139 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|VGA_SRAM_interface.v|
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+Z152 !s108 1574889869.876000
+Z153 !s107 define_state.h|VGA_SRAM_interface.v|
+Z154 !s90 -reportprogress|300|-sv|-work|rtl_work|+define+DISABLE_DEFAULT_NET|VGA_SRAM_interface.v|
 R9
 R10
-Z141 n@v@g@a_@s@r@a@m_interface
-Z142 !s100 Hbb[[X_]gTFaGgXXC6eQA0
-Z143 !s105 VGA_SRAM_interface_v_unit
+Z155 n@v@g@a_@s@r@a@m_interface
+Z156 !s100 Hbb[[X_]gTFaGgXXC6eQA0
+Z157 !s105 VGA_SRAM_interface_v_unit
 !s85 0
 !i10b 1
 !s101 -O0
 XVGA_SRAM_interface_v_unit
 R1
-<<<<<<< HEAD
-<<<<<<< HEAD
-Z144 V=D45@3;@eP:;8@MVN=JKg2
+Z158 V:bKCo1lZOIio[3`A3Xfl_2
 r1
 31
-Z145 I=D45@3;@eP:;8@MVN=JKg2
-=======
-=======
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-Z143 Vo`z2b:zbRDF^GKNfbKET@0
-r1
-31
-Z144 Io`z2b:zbRDF^GKNfbKET@0
-<<<<<<< HEAD
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+Z159 I:bKCo1lZOIio[3`A3Xfl_2
 S1
 R4
-R104
-R136
-R137
 R39
+R150
+R151
+R40
 L1 4
 R8
-R138
-R139
-R140
+R152
+R153
+R154
 R9
 R10
-<<<<<<< HEAD
-Z146 n@v@g@a_@s@r@a@m_interface_v_unit
-Z147 !s100 ?;MNfWiX?]WMB`TPKb9Gf0
-=======
-Z145 n@v@g@a_@s@r@a@m_interface_v_unit
-Z146 !s100 BK3Y>XHS0O09F1EQTNS_V0
-<<<<<<< HEAD
->>>>>>> parent of 4d7210a... M1 working - No mismatches
-=======
->>>>>>> parent of 4d7210a... M1 working - No mismatches
+Z160 n@v@g@a_@s@r@a@m_interface_v_unit
+Z161 !s100 ;oR=UFGe<2^YVj6C2=DVI1
 !s85 0
 !i10b 1
 !i103 1
