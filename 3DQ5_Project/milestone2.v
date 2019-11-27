@@ -898,7 +898,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 + 18'd1;
 			address3 <= address3 + 18'd1;
 
-			S_even <= ;
+			S_even <= m1_out + m2_out;
 
 			//begin calculation for S
 			m1_op1 <= data_out2[15:8];
@@ -917,7 +917,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 - 18'd3;
 			address3 <= address3 + 18'd1;
 
-			S_even <= ;
+			S_even <= S_even + m1_out + m2_out;
 
 			//begin calculation for S
 			m1_op1 <= data_out2[15:8];
@@ -936,7 +936,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 + 18'd1;
 			address3 <= address3 + 18'd1;
 
-			S_even <= ;
+			S_even <= S_even + m1_out + m2_out;
 			
 			//begin calculation for S
 			m1_op1 <= data_out2[15:8];
@@ -955,7 +955,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 + 18'd1;
 			address3 <= address3 + 18'd1;
 
-			S_even <= ;
+			S_even <= S_even + m1_out + m2_out;
 			
 			//begin calculation for S
 			m1_op1 <= data_out2[15:8];
@@ -974,7 +974,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 + 18'd1;
 			address3 <= address3 + 18'd1;
 
-			S_odd <= ;
+			S_odd <= m1_out + m2_out;
 			
 			//begin calculation for S
 			m1_op1 <= data_out2[15:8];
@@ -993,7 +993,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 - 18'd3;
 			address3 <= address3 + 18'd1;
 
-			S_odd <= ;
+			S_odd <= S_odd + m1_out + m2_out;
 			
 			//begin calculation for S
 			m1_op1 <= data_out2[15:8];
@@ -1012,7 +1012,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 + 18'd1;
 			address3 <= address3 + 18'd1;
 
-			S_odd <= ;
+			S_odd <= S_odd + m1_out + m2_out;
 			
 			//begin calculation for S
 			m1_op1 <= data_out2[15:8];
@@ -1031,7 +1031,33 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			//for DP-RAM1
 			address2 <= address2 + 18'd1;
 			address3 <= address3 + 18'd1;
+
+			//write the even and odd S values to SRAM
+			SRAM_address <= 18'd0;
+			SRAM_we_n <= 1'd0;
+			SRAM_write_data <= {(S_even >>> 16), ((S_odd + m1_out + m2_out) >>> 16)};
 			
+			//begin calculation for S in common case
+			m1_op1 <= data_out2[15:8];
+			m1_op2 <= data_out3[15:8];
+
+			m2_op1 <= data_out2[7:0];
+			m2_op1 <= data_out3[7:0];
+
+			m2_state <= S_calc_CC0;
+
+		end	
+
+		S_calc_CC0: begin
+
+			//for DP-RAM1
+			address2 <= address2 + 18'd1;
+			write_en2 <= 1'd0;
+			address3 <= address3 + 18'd1;
+			write_en3 <= 1'd0;
+
+			S_even <= m1_out + m2_out;
+
 			//begin calculation for S
 			m1_op1 <= data_out2[15:8];
 			m1_op2 <= data_out3[15:8];
@@ -1039,14 +1065,147 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			m2_op1 <= data_out2[7:0];
 			m2_op1 <= data_out3[7:0];
 
+			m2_state <= S_calc_CC1;
+
+		end	
+
+		S_calc_CC1: begin
+
+			//for DP-RAM1
+			address2 <= address2 - 18'd3;
+			address3 <= address3 + 18'd1;
+
+			S_even <= S_even + m1_out + m2_out;
+
+			//begin calculation for S
+			m1_op1 <= data_out2[15:8];
+			m1_op2 <= data_out3[15:8];
+
+			m2_op1 <= data_out2[7:0];
+			m2_op1 <= data_out3[7:0];
+
+			m2_state <= S_calc_CC2;
+
+		end	
+
+		S_calc_CC2: begin
+
+			//for DP-RAM1
+			address2 <= address2 + 18'd1;
+			address3 <= address3 + 18'd1;
+
+			S_even <= S_even + m1_out + m2_out;
+
+			//begin calculation for S
+			m1_op1 <= data_out2[15:8];
+			m1_op2 <= data_out3[15:8];
+
+			m2_op1 <= data_out2[7:0];
+			m2_op1 <= data_out3[7:0];
+
+			m2_state <= S_calc_CC3;
+
+		end	
+
+		S_calc_CC3: begin
+
+			//for DP-RAM1
+			address2 <= address2 + 18'd1;
+			address3 <= address3 + 18'd1;
+
+			S_even <= S_even + m1_out + m2_out;
+
+			//begin calculation for S
+			m1_op1 <= data_out2[15:8];
+			m1_op2 <= data_out3[15:8];
+
+			m2_op1 <= data_out2[7:0];
+			m2_op1 <= data_out3[7:0];
+
+			m2_state <= S_calc_CC4;
+
+		end	
+
+		S_calc_CC4: begin
+
+			//for DP-RAM1
+			address2 <= address2 + 18'd1;
+			address3 <= address3 + 18'd1;
+
+			S_odd <= m1_out + m2_out;
+
+			//begin calculation for S
+			m1_op1 <= data_out2[15:8];
+			m1_op2 <= data_out3[15:8];
+
+			m2_op1 <= data_out2[7:0];
+			m2_op1 <= data_out3[7:0];
+
+			m2_state <= S_calc_CC5;
+
+		end	
+
+		S_calc_CC5: begin
+
+			//for DP-RAM1
+			address2 <= address2 - 18'd3;
+			address3 <= address3 + 18'd1;
+
+			S_odd <= m1_out + m2_out;
+
+			//begin calculation for S
+			m1_op1 <= data_out2[15:8];
+			m1_op2 <= data_out3[15:8];
+
+			m2_op1 <= data_out2[7:0];
+			m2_op1 <= data_out3[7:0];
+
+			m2_state <= S_calc_CC6;
+
+		end	
+
+		S_calc_CC6: begin
+
+			//for DP-RAM1
+			address2 <= address2 + 18'd1;
+			address3 <= address3 + 18'd1;
+
+			S_odd <= m1_out + m2_out;
+
+			//begin calculation for S
+			m1_op1 <= data_out2[15:8];
+			m1_op2 <= data_out3[15:8];
+
+			m2_op1 <= data_out2[7:0];
+			m2_op1 <= data_out3[7:0];
+
+			m2_state <= S_calc_CC7;
+
+		end	
+
+		S_calc_CC7: begin
+
+			//for DP-RAM1
+			address2 <= address2 + 18'd1;
+			address3 <= address3 + 18'd1;
+
 			//write the even and odd S values to SRAM
 			SRAM_address <= 18'd0;
 			SRAM_we_n <= 1'd0;
-			SRAM_write_data <= {(S_even >>> 16), (S_odd_caluclation_goes_here) >>> 16)};
+			SRAM_write_data <= {(S_even >>> 16), ((S_odd + m1_out + m2_out) >>> 16)};
+
+			//begin calculation for S
+			m1_op1 <= data_out2[15:8];
+			m1_op2 <= data_out3[15:8];
+
+			m2_op1 <= data_out2[7:0];
+			m2_op1 <= data_out3[7:0];
 
 			m2_state <= S_calc_CC0;
 
 		end	
+
+
 
 	end
 
