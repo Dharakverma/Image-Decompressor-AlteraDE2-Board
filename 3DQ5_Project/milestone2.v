@@ -420,7 +420,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address0 <= 18'd0;
 			write_en0 <= 1'd0;
 
-			address1 <= 18'd0;
+			address1 <= 18'd32;
 			write_en1 <= 1'd0;
 
 			m2_state <= t_calc_lead_in1;
@@ -676,7 +676,6 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address0 <= address0 + 18'd1;
 			address1 <= address1 + 18'd1;
 
-
 			T_even <= T_even + m1_out + m2_out;
 
 			//begin calculation for S6*C50
@@ -817,7 +816,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			//for DP-RAM1
 			address2 <= 18'd0;
 			write_en2 <= 1'd0;
-			address3 <= 18'd0;
+			address3 <= 18'd32;
 			write_en3 <= 1'd0;
 
 			S_even <= 16'd0;
