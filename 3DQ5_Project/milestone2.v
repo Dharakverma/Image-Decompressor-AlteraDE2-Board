@@ -124,8 +124,8 @@ parameter pre_IDCT_Y = 18'd76800,
 
 
 logic [7:0] S; // output is 8 bit unsigned
-logic [2:0] current_row_counter; //8 rows of data per 8x8 block of pre-IDCT data
-logic [2:0] current_column_counter; //8 columns of data per 8x8 block of pre-IDCT data
+logic [2:0] row_counter; //8 rows of data per 8x8 block of pre-IDCT data
+logic [2:0] column_counter; //8 columns of data per 8x8 block of pre-IDCT data
 logic [5:0] block_col; //the column location of the 8x8 block we are reading 
 logic [4:0] block_row; //the row location of the 8x8 block we are reading
 
@@ -153,8 +153,8 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 		pixel_row <= 9'd0;
 		block_col <= 6'd0;
 		block_row <= 5'd0;
-		current_row_counter <= 3'd0;
-		current_column_counter <= 3'd0;
+		row_counter <= 3'd0;
+		column_counter <= 3'd0;
 		SRAM_address <= 18'd0;
 		m2_finish <= 1'd0;
 		m2_start <= 1'd0;
@@ -209,6 +209,9 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 		fill_lead_in1: begin
 			
 			write_en_n <= 1'b1;
+
+			column_counter <= m1_out;
+			row_counter <= m2_out;
 
 			//statements to move SRAM_address to the next 8x8 block if respective signals are high
 			if (read_y) begin
@@ -404,49 +407,6 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 		fill_lead_out8: begin
 			address0 <= address0 + 18'd1;
 			data_in0 <= {Sprime_row[6], Sprime_row[7]};
-
-			m2_state <= tcalc_lead_in0;
-			block_col <= block_col + 6'd1;
-
-			/* moving this to end of Scalc
-			//check which Y/U/V block we are reading, and either incriment to the next row/column or change to the next Y/U/V block
-			if (read_y) begin
-				if (block_col > 6'd39) begin
-					block_col <= 6'd0;
-					block_row <= block_row + 5'd1;
-				end
-				
-				if (block_row > 5'29) begin
-					block_row <= 5'd0;
-					read_u <= 1'd1;
-					read_y <= 1'd0;
-					read_v <= 1'd0;
-				end
-
-			end else if (read_u) begin
-				if (block_col > 6'd19) begin
-					block_col <= 6'd0;
-					block_row <= block_row + 5'd1;
-				end
-				
-				if (block_row > 5'29) begin
-					block_row <= 5'd0;
-					read_u <= 1'd0;
-					read_y <= 1'd0;
-					read_v <= 1'd1;
-				end
-
-			end else begin
-				if (block_col > 6'd19) begin
-					block_col <= 6'd0;
-					block_row <= block_row + 5'd1;
-				end
-				
-				if (block_row > 5'29) begin
-					finish_reading <= 1'b1;
-				end
-			end
-			*/
 
 			m2_state <= tcalc_lead_in0;
 		end 
@@ -860,11 +820,13 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address3 <= 18'd0;
 			write_en3 <= 1'd0;
 
+			S_even <= 16'd0;
+
 			m2_state <= S_calc_lead_in1;
 
 		end	
 
-		//read (T2, S'3) and calculate (T0,T1) @@@@@@@@@@@@ is this state correct on the state table? we arent calculating anything here 
+		//read (T2, S'3) and calculate (T0,T1) 
 		S_calc_lead_in1: begin
 			
 			//for DP-RAM1
@@ -886,7 +848,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			m1_op2 <= data_out3[15:8];
 
 			m2_op1 <= data_out2[7:0];
-			m2_op1 <= data_out3[7:0];
+			m2_op2 <= data_out3[7:0];
 
 			m2_state <= S_calc_lead_in3;
 
@@ -905,7 +867,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			m1_op2 <= data_out3[15:8];
 
 			m2_op1 <= data_out2[7:0];
-			m2_op1 <= data_out3[7:0];
+			m2_op2 <= data_out3[7:0];
 
 			m2_state <= S_calc_lead_in4;
 
@@ -924,7 +886,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			m1_op2 <= data_out3[15:8];
 
 			m2_op1 <= data_out2[7:0];
-			m2_op1 <= data_out3[7:0];
+			m2_op2 <= data_out3[7:0];
 
 			m2_state <= S_calc_lead_in5;
 
@@ -943,7 +905,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			m1_op2 <= data_out3[15:8];
 
 			m2_op1 <= data_out2[7:0];
-			m2_op1 <= data_out3[7:0];
+			m2_op2 <= data_out3[7:0];
 
 			m2_state <= S_calc_lead_in6;
 
@@ -962,7 +924,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			m1_op2 <= data_out3[15:8];
 
 			m2_op1 <= data_out2[7:0];
-			m2_op1 <= data_out3[7:0];
+			m2_op2 <= data_out3[7:0];
 
 			m2_state <= S_calc_lead_in7;
 
@@ -981,7 +943,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			m1_op2 <= data_out3[15:8];
 
 			m2_op1 <= data_out2[7:0];
-			m2_op1 <= data_out3[7:0];
+			m2_op2 <= data_out3[7:0];
 
 			m2_state <= S_calc_lead_in8;
 
@@ -1000,7 +962,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			m1_op2 <= data_out3[15:8];
 
 			m2_op1 <= data_out2[7:0];
-			m2_op1 <= data_out3[7:0];
+			m2_op2 <= data_out3[7:0];
 
 			m2_state <= S_calc_lead_in9;
 
@@ -1019,7 +981,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			m1_op2 <= data_out3[15:8];
 
 			m2_op1 <= data_out2[7:0];
-			m2_op1 <= data_out3[7:0];
+			m2_op2 <= data_out3[7:0];
 
 			m2_state <= S_calc_lead_in10;
 
@@ -1033,7 +995,14 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address3 <= address3 + 18'd1;
 
 			//write the even and odd S values to SRAM
-			SRAM_address <= 18'd0;
+			if (read_y) begin
+				SRAM_address <= column_counter + row_counter;
+			end else if (read_u) begin
+				SRAM_address <= u_offset + column_counter + row_counter;
+			end else if (read_v) begin
+				SRAM_address <= v_offset + column_counter + row_counter;
+			end
+
 			SRAM_we_n <= 1'd0;
 			SRAM_write_data <= {(S_even >>> 16), ((S_odd + m1_out + m2_out) >>> 16)};
 			
@@ -1042,7 +1011,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			m1_op2 <= data_out3[15:8];
 
 			m2_op1 <= data_out2[7:0];
-			m2_op1 <= data_out3[7:0];
+			m2_op2 <= data_out3[7:0];
 
 			m2_state <= S_calc_CC0;
 
@@ -1063,7 +1032,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			m1_op2 <= data_out3[15:8];
 
 			m2_op1 <= data_out2[7:0];
-			m2_op1 <= data_out3[7:0];
+			m2_op2 <= data_out3[7:0];
 
 			m2_state <= S_calc_CC1;
 
@@ -1082,7 +1051,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			m1_op2 <= data_out3[15:8];
 
 			m2_op1 <= data_out2[7:0];
-			m2_op1 <= data_out3[7:0];
+			m2_op2 <= data_out3[7:0];
 
 			m2_state <= S_calc_CC2;
 
@@ -1101,7 +1070,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			m1_op2 <= data_out3[15:8];
 
 			m2_op1 <= data_out2[7:0];
-			m2_op1 <= data_out3[7:0];
+			m2_op2 <= data_out3[7:0];
 
 			m2_state <= S_calc_CC3;
 
@@ -1120,7 +1089,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			m1_op2 <= data_out3[15:8];
 
 			m2_op1 <= data_out2[7:0];
-			m2_op1 <= data_out3[7:0];
+			m2_op2 <= data_out3[7:0];
 
 			m2_state <= S_calc_CC4;
 
@@ -1139,7 +1108,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			m1_op2 <= data_out3[15:8];
 
 			m2_op1 <= data_out2[7:0];
-			m2_op1 <= data_out3[7:0];
+			m2_op2 <= data_out3[7:0];
 
 			m2_state <= S_calc_CC5;
 
@@ -1151,14 +1120,14 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 - 18'd3;
 			address3 <= address3 + 18'd1;
 
-			S_odd <= m1_out + m2_out;
+			S_odd <= S_odd + m1_out + m2_out;
 
 			//begin calculation for S
 			m1_op1 <= data_out2[15:8];
 			m1_op2 <= data_out3[15:8];
 
 			m2_op1 <= data_out2[7:0];
-			m2_op1 <= data_out3[7:0];
+			m2_op2 <= data_out3[7:0];
 
 			m2_state <= S_calc_CC6;
 
@@ -1170,14 +1139,14 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 + 18'd1;
 			address3 <= address3 + 18'd1;
 
-			S_odd <= m1_out + m2_out;
+			S_odd <= S_odd + m1_out + m2_out;
 
 			//begin calculation for S
 			m1_op1 <= data_out2[15:8];
 			m1_op2 <= data_out3[15:8];
 
 			m2_op1 <= data_out2[7:0];
-			m2_op1 <= data_out3[7:0];
+			m2_op2 <= data_out3[7:0];
 
 			m2_state <= S_calc_CC7;
 
@@ -1190,7 +1159,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address3 <= address3 + 18'd1;
 
 			//write the even and odd S values to SRAM
-			SRAM_address <= 18'd0;
+			SRAM_address <= SRAM_address + 18'd1;
 			SRAM_we_n <= 1'd0;
 			SRAM_write_data <= {(S_even >>> 16), ((S_odd + m1_out + m2_out) >>> 16)};
 
@@ -1199,9 +1168,55 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			m1_op2 <= data_out3[15:8];
 
 			m2_op1 <= data_out2[7:0];
-			m2_op1 <= data_out3[7:0];
+			m2_op2 <= data_out3[7:0];
 
-			m2_state <= S_calc_CC0;
+			if ((read_y && (address2 > 18'd31)) || ((read_u || read_v) && (address2 > 18'd15))) begin
+
+				block_col <= block_col + 6'd1;
+
+				//check which Y/U/V block we are reading, and either incriment to the next row/column or change to the next Y/U/V block
+				if (read_y) begin
+					if (block_col > 6'd39) begin
+						block_col <= 6'd0;
+						block_row <= block_row + 5'd1;
+					end
+					
+					if (block_row > 5'29) begin
+						block_row <= 5'd0;
+						read_u <= 1'd1;
+						read_y <= 1'd0;
+						read_v <= 1'd0;
+					end
+
+				end else if (read_u) begin
+					if (block_col > 6'd19) begin
+						block_col <= 6'd0;
+						block_row <= block_row + 5'd1;
+					end
+					
+					if (block_row > 5'29) begin
+						block_row <= 5'd0;
+						read_u <= 1'd0;
+						read_y <= 1'd0;
+						read_v <= 1'd1;
+					end
+
+				end else begin
+					if (block_col > 6'd19) begin
+						block_col <= 6'd0;
+						block_row <= block_row + 5'd1;
+					end
+					
+					if (block_row > 5'29) begin
+						finish_reading <= 1'b1;
+					end
+				end
+				m2_state <= fill_lead_in0;
+
+			end else begin
+				m2_state <= S_calc_CC0;
+
+			end
 
 		end	
 
