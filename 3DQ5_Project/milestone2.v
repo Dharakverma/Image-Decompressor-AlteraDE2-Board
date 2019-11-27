@@ -70,7 +70,7 @@ logic write_en3;
 logic [31:0] data_out3;
 
 //instintiate DP-RAM1 
-dual_port_RAM0 dual_port_RAM_inst0 (
+dual_port_RAM0 dual_port_RAM0_inst (
 	.address_a (address0),
 	.address_b (address1),
 	.clock (CLOCK_50_I),
@@ -83,7 +83,7 @@ dual_port_RAM0 dual_port_RAM_inst0 (
 );
 
 //instintiate DP-RAM2 
-dual_port_RAM1 dual_port_RAM_inst1 (
+dual_port_RAM1 dual_port_RAM1_inst (
 	.address_a (address2),
 	.address_b (address3),
 	.clock (CLOCK_50_I),
