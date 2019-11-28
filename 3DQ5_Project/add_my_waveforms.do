@@ -30,15 +30,15 @@ add wave -unsigned uut/m2_unit/write_en1
 add wave -unsigned uut/m2_unit/write_en2
 add wave -unsigned uut/m2_unit/write_en3
 add wave -divider {M2 Output Signals}
-add wave -hex uut/m2_unit/bit_T_even
-add wave -hex uut/m2_unit/bit_T_odd
-add wave -hex uut/m2_unit/clipped_S_even
-add wave -hex uut/m2_unit/clipped_S_odd
+add wave -hex uut/m2_unit/bit_T_first
+add wave -hex uut/m2_unit/bit_T_second
+add wave -hex uut/m2_unit/clipped_S_first
+add wave -hex uut/m2_unit/clipped_S_second
 add wave -hex uut/m2_unit/Sprime_row
-add wave -hex uut/m2_unit/T_even
-add wave -hex uut/m2_unit/T_odd
-add wave -hex uut/m2_unit/S_even
-add wave -hex uut/m2_unit/S_odd
+add wave -hex uut/m2_unit/T_first
+add wave -hex uut/m2_unit/T_second
+add wave -hex uut/m2_unit/S_first
+add wave -hex uut/m2_unit/S_second
 add wave -hex uut/m2_unit/Sprime_row
 add wave -divider {M2 Counter Signals}
 add wave -unsigned uut/m2_unit/row_counter

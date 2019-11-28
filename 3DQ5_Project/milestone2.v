@@ -108,30 +108,30 @@ logic [15:0] Sprime_row [7:0];
 
 logic [2:0] increase_Saddress;
 logic [2:0] increase_Taddress;
-logic signed [31:0] T_even;
-logic signed [31:0] T_odd;
-logic signed [31:0] S_even;
-logic signed [31:0] S_odd;
+logic signed [31:0] T_first;
+logic signed [31:0] T_second;
+logic signed [31:0] S_first;
+logic signed [31:0] S_second;
 
-logic signed [15:0] bit_T_even;
-logic signed [15:0] bit_T_odd; 
+logic signed [15:0] bit_T_first;
+logic signed [15:0] bit_T_second; 
 
-logic [31:0] temp_S_even;
-logic [31:0] temp_S_odd;
-logic [31:0] S_even_p;
-logic [31:0] S_odd_p;
-logic [7:0] clipped_S_even;
-logic [7:0] clipped_S_odd;
+logic [31:0] temp_S_first;
+logic [31:0] temp_S_second;
+logic [31:0] S_first_p;
+logic [31:0] S_second_p;
+logic [7:0] clipped_S_first;
+logic [7:0] clipped_S_second;
 
 always_comb begin
-	bit_T_even = (T_even >>> 8); 
-	bit_T_odd = ((T_odd + m1_out + m2_out) >>> 8);
+	bit_T_first = (T_first >>> 8); 
+	bit_T_second = ((T_second + m1_out + m2_out) >>> 8);
 
-	//clipped_S_even = ((S_even >>> 16) > 32'sd255) ? 8'd255 : (((S_even >>> 16) < 32'sd0) ? 8'd0 : (S_even >>> 16));
-	//clipped_S_odd = (((S_odd + m1_out + m2_out) >>> 16) > 32'sd255) ? 8'd255 : ((((S_odd + m1_out + m2_out) >>> 16) < 32'sd0) ? 8'd0 : ((S_odd + m1_out + m2_out) >>> 16));
+	//clipped_S_first = ((S_first >>> 16) > 32'sd255) ? 8'd255 : (((S_first >>> 16) < 32'sd0) ? 8'd0 : (S_first >>> 16));
+	//clipped_S_second = (((S_second + m1_out + m2_out) >>> 16) > 32'sd255) ? 8'd255 : ((((S_second + m1_out + m2_out) >>> 16) < 32'sd0) ? 8'd0 : ((S_second + m1_out + m2_out) >>> 16));
 
-	clipped_S_even = (S_even >>> 16);
-	clipped_S_odd = ((S_odd + m1_out + m2_out) >>> 16);
+	clipped_S_first = (S_first >>> 16);
+	clipped_S_second = ((S_second + m1_out + m2_out) >>> 16);
 
 end
 
@@ -157,10 +157,10 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 		read_u <= 1'd0;
 		read_v <= 1'd0;
 
-		S_even <= 16'd0;
-		S_odd <= 16'd0;
-		T_even <= 16'd0;
-		T_odd <= 16'd0;
+		S_first <= 16'd0;
+		S_second <= 16'd0;
+		T_first <= 16'd0;
+		T_second <= 16'd0;
 
 		//initialize the rest of the signals as we add them to the program
 		increase_Saddress <= 3'd0;
@@ -292,7 +292,12 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 		end
 
 		fill_lead_in9: begin
-			SRAM_address <= SRAM_address + 18'd1;
+			if (read_y) begin
+				SRAM_address <= SRAM_address + 18'd313;
+			end else begin
+				SRAM_address <= SRAM_address + 18'd153;
+			end
+
 			Sprime_row[5] <= SRAM_read_data;
 			
 			m2_state <= fill_lead_in10;
@@ -370,7 +375,11 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 		//store S'5 and write (S'0, S'1) to DP-RAM0
 		fill_CC5: begin
-			SRAM_address <= SRAM_address + 18'd1;
+			if (read_y) begin
+				SRAM_address <= SRAM_address + 18'd313;
+			end else begin
+				SRAM_address <= SRAM_address + 18'd153;
+			end
 			Sprime_row[5] <= SRAM_read_data;
 
 			m2_state <= fill_CC6;
@@ -378,11 +387,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 		//store S'6, write (S'2, S'3) to DP-RAM0, and read S'320
 		fill_CC6: begin
-			if (read_y) begin
-				SRAM_address <= SRAM_address + 18'd320;
-			end else begin
-				SRAM_address <= SRAM_address + 18'd160;
-			end
+			SRAM_address <= SRAM_address + 18'd1;
 			Sprime_row[6] <= SRAM_read_data;
 
 			address0 <= address0 + 7'd1;
@@ -546,7 +551,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 			increase_Saddress <= increase_Saddress + 3'd1;
 			
-			T_even <= m1_out + m2_out;
+			T_first <= m1_out + m2_out;
 
 			//begin calculation for S2*C16
 			m1_op1 <= data_out0[31:16];
@@ -572,10 +577,10 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 		t_calc_lead_in4: begin
 			
 			//for DP-RAM0
-			address0 <= address0 - 7'd3;
-			address1 <= address1 + 7'd1;
+			address0 <= address0 + 7'd1;
+			address1 <= address1 - 7'd3;
 
-			T_even <= T_even + m1_out + m2_out;
+			T_first <= T_first + m1_out + m2_out;
 			
 			//begin calculation for S4*C32
 			m1_op1 <= data_out0[31:16];
@@ -602,7 +607,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address0 <= address0 + 7'd1;
 			address1 <= address1 + 7'd1;
 
-			T_even <= T_even + m1_out + m2_out;
+			T_first <= T_first + m1_out + m2_out;
 			
 			//begin calculation for S6*C48
 			m1_op1 <= data_out0[31:16];
@@ -629,7 +634,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address0 <= address0 + 7'd1;
 			address1 <= address1 + 7'd1;
 
-			T_even <= T_even + m1_out + m2_out; //t even is done calculating
+			T_first <= T_first + m1_out + m2_out; //t even is done calculating
 
 			//begin calculation for S0*C1
 			m1_op1 <= data_out0[31:16];
@@ -658,7 +663,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 			increase_Saddress <= increase_Saddress + 3'd1;
 
-			T_odd <= m1_out + m2_out;
+			T_second <= m1_out + m2_out;
 
 			//begin calculation for S4*C33
 			m1_op1 <= data_out0[31:16];
@@ -682,10 +687,10 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 		t_calc_lead_in8: begin
 			
 			//for DP-RAM0
-			address0 <= address0 - 7'd3;
-			address1 <= address1 + 7'd1;
+			address0 <= address0 - 7'd7;
+			address1 <= address1 - 7'd3;
 
-			T_odd <= T_odd + m1_out + m2_out; 
+			T_second <= T_second + m1_out + m2_out; 
 
 			//begin calculation for S2*C17
 			m1_op1 <= data_out0[31:16];
@@ -712,7 +717,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address0 <= address0 + 7'd1;
 			address1 <= address1 + 7'd1;
 
-			T_odd <= T_odd + m1_out + m2_out;
+			T_second <= T_second + m1_out + m2_out;
 
 			//begin calculation for S6*C49
 			m1_op1 <= data_out0[31:16];
@@ -739,12 +744,12 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address0 <= address0 + 7'd1;
 			address1 <= address1 + 7'd1;
 
-			T_odd <= T_odd + m1_out + m2_out;
+			T_second <= T_second + m1_out + m2_out;
 
 			//for DP-RAM1
 			address2 <= 7'd0;
 			write_en2 <= 1'd1;
-			data_in2 <= {bit_T_even, bit_T_odd}; //finish calculating T1 and write (T0,T1) to DP-RAM1
+			data_in2 <= {bit_T_first, bit_T_second}; //finish calculating T1 and write (T0,T1) to DP-RAM1
 
 			//begin calculation for S0*C2
 			m1_op1 <= data_out0[31:16];
@@ -775,7 +780,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			increase_Saddress <= increase_Saddress + 3'd1; //used to increase address by 4
 			write_en2 <= 1'd0;
 
-			T_even <= m1_out + m2_out;
+			T_first <= m1_out + m2_out;
 
 			//begin calculation for S2*C18
 			m1_op1 <= data_out0[31:16];
@@ -799,10 +804,10 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 		//read (S'4, S'5) and calculate T(S'2, S'3)
 		t_calc_CC_1: begin
 			
-			address0 <= address0 - 7'd3;
-			address1 <= address1 + 7'd1;
+			address0 <= address0 + 7'd1;
+			address1 <= address1 - 7'd3;
 
-			T_even <= T_even + m1_out + m2_out;
+			T_first <= T_first + m1_out + m2_out;
 
 			//begin calculation for S4*C34
 			m1_op1 <= data_out0[31:16];
@@ -829,7 +834,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address0 <= address0 + 7'd1;
 			address1 <= address1 + 7'd1;
 
-			T_even <= T_even + m1_out + m2_out;
+			T_first <= T_first + m1_out + m2_out;
 
 			//begin calculation for S6*C50
 			m1_op1 <= data_out0[31:16];
@@ -856,7 +861,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address0 <= address0 + 7'd1;
 			address1 <= address1 + 7'd1;
 
-			T_even <= T_even + m1_out + m2_out; //T_even has been fully calculated
+			T_first <= T_first + m1_out + m2_out; //T_first has been fully calculated
 
 			//begin calculation for S0*C3
 			m1_op1 <= data_out0[31:16];
@@ -885,7 +890,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			
 			increase_Saddress <= increase_Saddress + 3'd1;
 
-			T_odd <= m1_out + m2_out; //begin calculating T_odd
+			T_second <= m1_out + m2_out; //begin calculating T_second
 
 			//begin calculation for S2*C19
 			m1_op1 <= data_out0[31:16];
@@ -910,18 +915,17 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			
 			if (increase_Saddress == 3'd0) begin
 				//for DP-RAM0
-				address0 <= address0 + 7'd1;
+				address0 <= (address0 == 7'd31 && address2 < 7'd31) ? 7'd0 : address0 + 7'd1;
 				address1 <= address1 + 7'd1;
 				
 			end else begin
 				//for DP-RAM0
-				address0 <= address0 - 7'd3;
-				address1 <= address1 + 7'd1;
+				address0 <= address0 - 7'd7;
+				address1 <= address1 - 7'd3;
 
 			end
-			
 
-			T_odd <= T_odd + m1_out + m2_out;
+			T_second <= T_second + m1_out + m2_out;
 
 			//begin calculation for S4*C35
 			m1_op1 <= data_out0[31:16];
@@ -948,7 +952,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address0 <= address0 + 7'd1;
 			address1 <= address1 + 7'd1;
 
-			T_odd <= T_odd + m1_out + m2_out;
+			T_second <= T_second + m1_out + m2_out;
 
 			//begin calculation for S6*C51
 			m1_op1 <= data_out0[31:16];
@@ -976,12 +980,12 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address0 <= address0 + 7'd1;
 			address1 <= address1 + 7'd1;
 
-			T_odd <= T_odd + m1_out + m2_out;
+			T_second <= T_second + m1_out + m2_out;
 
 			//for DP-RAM1
 			address2 <= address2 + 7'd1;
 			write_en2 <= 1'd1;
-			data_in2 <= {bit_T_even, bit_T_odd}; //finish calculating T_odd and write (T_even,T_odd) to DP-RAM1
+			data_in2 <= {bit_T_first, bit_T_second}; //finish calculating T_second and write (T_first,T_second) to DP-RAM1
 
 			//begin calculation for S0*C4
 			m1_op1 <= data_out0[31:16];
@@ -998,7 +1002,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				m2_op2 <= data_out1[11:0];
 			end
 
-			if ((read_y && (address0 >= 7'd31)) || ((read_u || read_v) && (address0 > 7'd15))) begin
+			if ((read_y && (address2 == 7'd31)) || ((read_u || read_v) && (address2 == 7'd15))) begin
 				m2_state <= S_calc_lead_in0;
 			end else begin
 				m2_state <= t_calc_CC_0;
@@ -1017,7 +1021,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address3 <= 7'd32;
 			write_en3 <= 1'd0;
 
-			S_even <= 16'd0;
+			S_first <= 16'd0;
 
 			m2_state <= S_calc_lead_in1;
 
@@ -1049,7 +1053,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			m2_op1 <= data_out2[15:0];
-			if (data_out1[12]) begin
+			if (data_out3[12]) begin
 				m2_op2 <= 1'd0 - data_out3[11:0];
 			end else begin
 				m2_op2 <= data_out3[11:0];
@@ -1067,7 +1071,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 + 7'd1;
 			address3 <= address3 + 7'd1;
 
-			S_even <= m1_out + m2_out;
+			S_first <= m1_out + m2_out;
 
 			//begin calculation for S
 			m1_op1 <= data_out2[31:16];
@@ -1078,7 +1082,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			m2_op1 <= data_out2[15:0];
-			if (data_out1[12]) begin
+			if (data_out3[12]) begin
 				m2_op2 <= 1'd0 - data_out3[11:0];
 			end else begin
 				m2_op2 <= data_out3[11:0];
@@ -1090,11 +1094,11 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 		S_calc_lead_in4: begin
 
-			address2 <= address2 - 7'd3;
-			address3 <= address3 + 7'd1;
+			address2 <= address2 + 7'd1;
+			address3 <= address3 - 7'd3;
 			
 
-			S_even <= S_even + m1_out + m2_out;
+			S_first <= S_first + m1_out + m2_out;
 
 			//begin calculation for S
 			m1_op1 <= data_out2[31:16];
@@ -1105,7 +1109,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			m2_op1 <= data_out2[15:0];
-			if (data_out1[12]) begin
+			if (data_out3[12]) begin
 				m2_op2 <= 1'd0 - data_out3[11:0];
 			end else begin
 				m2_op2 <= data_out3[11:0];
@@ -1121,7 +1125,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 + 7'd1;
 			address3 <= address3 + 7'd1;
 
-			S_even <= S_even + m1_out + m2_out;
+			S_first <= S_first + m1_out + m2_out;
 			
 			//begin calculation for S
 			m1_op1 <= data_out2[31:16];
@@ -1132,7 +1136,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			m2_op1 <= data_out2[15:0];
-			if (data_out1[12]) begin
+			if (data_out3[12]) begin
 				m2_op2 <= 1'd0 - data_out3[11:0];
 			end else begin
 				m2_op2 <= data_out3[11:0];
@@ -1148,7 +1152,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 + 7'd1;
 			address3 <= address3 + 7'd1;
 
-			S_even <= S_even + m1_out + m2_out;
+			S_first <= S_first + m1_out + m2_out;
 			
 			//begin calculation for S
 			m1_op1 <= data_out2[31:16];
@@ -1159,7 +1163,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			m2_op1 <= data_out2[15:0];
-			if (data_out1[12]) begin
+			if (data_out3[12]) begin
 				m2_op2 <= 1'd0 - data_out3[11:0];
 			end else begin
 				m2_op2 <= data_out3[11:0];
@@ -1177,7 +1181,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 + 7'd1;
 			address3 <= address3 + 7'd1;
 
-			S_odd <= m1_out + m2_out;
+			S_second <= m1_out + m2_out;
 			
 			//begin calculation for S
 			m1_op1 <= data_out2[31:16];
@@ -1188,7 +1192,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			m2_op1 <= data_out2[15:0];
-			if (data_out1[12]) begin
+			if (data_out3[12]) begin
 				m2_op2 <= 1'd0 - data_out3[11:0];
 			end else begin
 				m2_op2 <= data_out3[11:0];
@@ -1200,10 +1204,10 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 		S_calc_lead_in8: begin
 
-			address2 <= address2 - 7'd3;
-			address3 <= address3 + 7'd1;
+			address2 <= address2 + 7'd1;
+			address3 <= address3 - 7'd3;
 
-			S_odd <= S_odd + m1_out + m2_out;
+			S_second <= S_second + m1_out + m2_out;
 			
 			//begin calculation for S
 			m1_op1 <= data_out2[31:16];
@@ -1214,7 +1218,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			m2_op1 <= data_out2[15:0];
-			if (data_out1[12]) begin
+			if (data_out3[12]) begin
 				m2_op2 <= 1'd0 - data_out3[11:0];
 			end else begin
 				m2_op2 <= data_out3[11:0];
@@ -1230,7 +1234,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 + 7'd1;
 			address3 <= address3 + 7'd1;
 
-			S_odd <= S_odd + m1_out + m2_out;
+			S_second <= S_second + m1_out + m2_out;
 			
 			//begin calculation for S
 			m1_op1 <= data_out2[31:16];
@@ -1241,7 +1245,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			m2_op1 <= data_out2[15:0];
-			if (data_out1[12]) begin
+			if (data_out3[12]) begin
 				m2_op2 <= 1'd0 - data_out3[11:0];
 			end else begin
 				m2_op2 <= data_out3[11:0];
@@ -1258,7 +1262,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 + 7'd1;
 			address3 <= address3 + 7'd1;
 
-			S_odd <= S_odd + m1_out + m2_out;
+			S_second <= S_second + m1_out + m2_out;
 
 			//write the even and odd S values to SRAM
 			if (read_y) begin
@@ -1270,7 +1274,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 
 			write_en_n <= 1'd0;
-			SRAM_write_data <= {clipped_S_even, clipped_S_odd};
+			SRAM_write_data <= {clipped_S_first, clipped_S_second};
 			
 			//begin calculation for S in common case
 			m1_op1 <= data_out2[31:16];
@@ -1281,7 +1285,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			m2_op1 <= data_out2[15:0];
-			if (data_out1[12]) begin
+			if (data_out3[12]) begin
 				m2_op2 <= 1'd0 - data_out3[11:0];
 			end else begin
 				m2_op2 <= data_out3[11:0];
@@ -1303,7 +1307,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address3 <= address3 + 7'd1;
 			write_en3 <= 1'd0;
 
-			S_even <= m1_out + m2_out;
+			S_first <= m1_out + m2_out;
 
 			//begin calculation for S
 			m1_op1 <= data_out2[31:16];
@@ -1314,7 +1318,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			m2_op1 <= data_out2[15:0];
-			if (data_out1[12]) begin
+			if (data_out3[12]) begin
 				m2_op2 <= 1'd0 - data_out3[11:0];
 			end else begin
 				m2_op2 <= data_out3[11:0];
@@ -1326,10 +1330,10 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 
 		S_calc_CC1: begin
 
-			address2 <= address2 - 7'd3;
-			address3 <= address3 + 7'd1;
+			address2 <= address2 + 7'd1;
+			address3 <= address3 - 7'd3;
 
-			S_even <= S_even + m1_out + m2_out;
+			S_first <= S_first + m1_out + m2_out;
 
 			//begin calculation for S
 			m1_op1 <= data_out2[31:16];
@@ -1340,7 +1344,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			m2_op1 <= data_out2[15:0];
-			if (data_out1[12]) begin
+			if (data_out3[12]) begin
 				m2_op2 <= 1'd0 - data_out3[11:0];
 			end else begin
 				m2_op2 <= data_out3[11:0];
@@ -1356,7 +1360,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 + 7'd1;
 			address3 <= address3 + 7'd1;
 
-			S_even <= S_even + m1_out + m2_out;
+			S_first <= S_first + m1_out + m2_out;
 
 			//begin calculation for S
 			m1_op1 <= data_out2[31:16];
@@ -1367,7 +1371,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			m2_op1 <= data_out2[15:0];
-			if (data_out1[12]) begin
+			if (data_out3[12]) begin
 				m2_op2 <= 1'd0 - data_out3[11:0];
 			end else begin
 				m2_op2 <= data_out3[11:0];
@@ -1383,7 +1387,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 + 7'd1;
 			address3 <= address3 + 7'd1;
 
-			S_even <= S_even + m1_out + m2_out;
+			S_first <= S_first + m1_out + m2_out;
 
 			//begin calculation for S
 			m1_op1 <= data_out2[31:16];
@@ -1394,7 +1398,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			m2_op1 <= data_out2[15:0];
-			if (data_out1[12]) begin
+			if (data_out3[12]) begin
 				m2_op2 <= 1'd0 - data_out3[11:0];
 			end else begin
 				m2_op2 <= data_out3[11:0];
@@ -1412,7 +1416,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 + 7'd1;
 			address3 <= address3 + 7'd1;
 
-			S_odd <= m1_out + m2_out;
+			S_second <= m1_out + m2_out;
 
 			//begin calculation for S
 			m1_op1 <= data_out2[31:16];
@@ -1423,7 +1427,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			m2_op1 <= data_out2[15:0];
-			if (data_out1[12]) begin
+			if (data_out3[12]) begin
 				m2_op2 <= 1'd0 - data_out3[11:0];
 			end else begin
 				m2_op2 <= data_out3[11:0];
@@ -1442,12 +1446,12 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 				
 			end else begin
 				//for DP-RAM1
-				address2 <= address2 - 7'd3;
-				address3 <= address3 + 7'd1;
+				address2 <= address2 + 7'd1;
+				address3 <= address3 - 7'd3;
 
 			end
 
-			S_odd <= S_odd + m1_out + m2_out;
+			S_second <= S_second + m1_out + m2_out;
 
 			//begin calculation for S
 			m1_op1 <= data_out2[31:16];
@@ -1458,7 +1462,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			m2_op1 <= data_out2[15:0];
-			if (data_out1[12]) begin
+			if (data_out3[12]) begin
 				m2_op2 <= 1'd0 - data_out3[11:0];
 			end else begin
 				m2_op2 <= data_out3[11:0];
@@ -1474,7 +1478,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			address2 <= address2 + 7'd1;
 			address3 <= address3 + 7'd1;
 
-			S_odd <= S_odd + m1_out + m2_out;
+			S_second <= S_second + m1_out + m2_out;
 
 			//begin calculation for S
 			m1_op1 <= data_out2[31:16];
@@ -1485,7 +1489,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			m2_op1 <= data_out2[15:0];
-			if (data_out1[12]) begin
+			if (data_out3[12]) begin
 				m2_op2 <= 1'd0 - data_out3[11:0];
 			end else begin
 				m2_op2 <= data_out3[11:0];
@@ -1504,7 +1508,7 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			//write the even and odd S values to SRAM
 			SRAM_address <= SRAM_address + 18'd1;
 			write_en_n <= 1'd0;
-			SRAM_write_data <= {clipped_S_even, clipped_S_odd};
+			SRAM_write_data <= {clipped_S_first, clipped_S_second};
 
 			//begin calculation for S
 			m1_op1 <= data_out2[31:16];
@@ -1515,13 +1519,13 @@ always @(posedge CLOCK_50_I or negedge Resetn) begin
 			end
 			
 			m2_op1 <= data_out2[15:0];
-			if (data_out1[12]) begin
+			if (data_out3[12]) begin
 				m2_op2 <= 1'd0 - data_out3[11:0];
 			end else begin
 				m2_op2 <= data_out3[11:0];
 			end
 
-			if ((read_y && (address2 > 7'd31)) || ((read_u || read_v) && (address2 > 7'd15))) begin
+			if ((read_y && (address3 > 7'd63)) || ((read_u || read_v) && (address3 > 7'd31))) begin
 
 				block_col <= block_col + 6'd1;
 
