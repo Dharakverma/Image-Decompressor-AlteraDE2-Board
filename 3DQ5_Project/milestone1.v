@@ -115,8 +115,8 @@ Multiplier mult3(
 );
 
 always_comb begin
-  temp_R_p = mult1_out + mult2_out;
-  temp_G_p = matrix_value_y + mult1_out + mult2_out;
+  	temp_R_p = mult1_out + mult2_out;
+  	temp_G_p = matrix_value_y + mult1_out + mult2_out;
 	temp_B_p = matrix_value_y + mult3_out;
 	clip_R_p = {{16{temp_R_p[31]}} , temp_R_p[31:16]};
 	clip_G_p = {{16{temp_G_p[31]}} , temp_G_p[31:16]};
@@ -126,28 +126,26 @@ always_comb begin
 		clip_B = 8'd255;
 	end else if ($signed(clip_B_p) < 8'sd0) begin
 		clip_B = 8'd0;
-  end else begin
-    clip_B = clip_B_p;
-  end
+  	end else begin
+    	clip_B = clip_B_p;
+  	end
   
 	if ($signed(clip_G_p) > 32'sd255) begin
 		clip_G = 8'd255;
 	end else if ($signed(clip_G_p) < 8'sd0) begin
 		clip_G = 8'd0;
-  end else begin
-    clip_G = clip_G_p;
-  end
-  
+  	end else begin
+    	clip_G = clip_G_p;
+  	end
   
 	if ($signed(clip_R_p) > 32'sd255) begin
 		clip_R = 8'd255;
 	end else if ($signed(clip_R_p) < 8'sd0) begin
 		clip_R = 8'd0;
-  end else begin
-    clip_R = clip_R_p;
-  end
-  
-  
+  	end else begin
+    	clip_R = clip_R_p;
+  	end
+
 end
 
 

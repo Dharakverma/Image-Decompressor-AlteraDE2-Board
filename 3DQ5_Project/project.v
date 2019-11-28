@@ -142,7 +142,6 @@ UART_SRAM_interface UART_unit(
 	.Frame_error(Frame_error)
 );
 
-
 logic [15:0] m1_write_data;
 logic [17:0] m1_address;
 logic m1_start_bit;
@@ -280,7 +279,6 @@ always @(posedge CLOCK_50_I or negedge resetn) begin
 			m2_start <= 1'b0;
 			
 			if (m2_finish) begin
-				VGA_enable <= 1'b1;
 `ifdef SIMULATION
 				top_state <= S_IDLE;
 `endif
